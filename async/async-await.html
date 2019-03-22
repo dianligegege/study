@@ -42,8 +42,27 @@
             await quick();
             console.log(await sleep(2000));
             await quick();
+            console.log('是否被阻塞'); // 同样被阻塞了
+            
         }
         demo2();
+
+        // 多个await
+        function sleep1(waittime, param) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(param)
+                },waittime);
+            });
+        }
+
+        async function demo3() {
+            let r1 = await sleep1(500, 'req1')
+            let r2 = await sleep1(500, 'req2'+r1)
+            let r3 = await sleep1(500, 'req1'+r2);
+            console.log(r1,r2,r3);
+        };
+        demo3();
     </script>
 </body>
 </html>
