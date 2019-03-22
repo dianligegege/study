@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name='apple-itunes-app' content='app-id=477927812'>
+    <!-- <script type="text/javascript" id="_openinstall_banner" src="//openinstall.io/openinstall.js?id=4012928888081854891"></script> -->
+    <title>Document</title>
+    <style>
+        #openApp0 {
+            background-color: bisque;
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        下载
+    </div>
+    <a href="https://play.google.com/store/apps/details?id=jp.co.huobi.japan" id="openApp0" onclick="fun1('QQmusic://')">qq音乐</a>
+    <a href="https://play.google.com/store/apps/details?id=jp.co.huobi.japan" id="openApp0" onclick="fun1('weixin://')">微信</a>
+</body>
+<script>
+    function fun1(ifrSrc) {
+        if (navigator.userAgent.match(/android/i)) {
+            // 通过iframe的方式试图打开APP，如果能正常打开，会直接切换到APP，并自动阻止a标签的默认行为
+            // 否则打开a标签的href链接
+            var isInstalled;
+            //下面是安卓端APP接口调用的地址，自己根据情况去修改
+            var ifr = document.createElement('iframe');
+            ifr.src = ifrSrc;
+            ifr.style.display = 'none';
+            ifr.onload = function () {
+                isInstalled = true;
+                alert(isInstalled);
+                document.getElementById('openApp0').click();
+            };
+            ifr.onerror = function () {
+                isInstalled = false;
+                alert(isInstalled);
+            }
+            document.body.appendChild(ifr);
+            setTimeout(function () {
+                document.body.removeChild(ifr);
+            }, 1000);
+        }
+        //ios判断
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+            if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+                //Animation://com.yz.animation
+                var isInstalled;
+                //var gz = '{"comName":"${com.short_name}","comID":"${com.id}","comPhoneNum":"${com.phone_num}","type":"0"}';
+                //var jsongz =JSON.parse(gz);
+                //下面是IOS调用的地址，自己根据情况去修改
+                var ifrSrc = 'Animation://?comName=${com.short_name}&comID=${com.id}&comPhoneNum=${com.phone_num}&type=0'; var ifr = document.createElement('iframe');
+                ifr.src = ifrSrc;
+                ifr.style.display = 'none';
+                ifr.onload = function () {
+                    // alert('Is installed.');
+                    isInstalled = true;
+                    alert(isInstalled);
+                    document.getElementById('openApp1').click();
+                };
+                ifr.onerror = function () {
+                    // alert('May be not installed.');
+                    isInstalled = false;
+                    alert(isInstalled);
+                }
+                document.body.appendChild(ifr);
+                setTimeout(function () {
+                    document.body.removeChild(ifr);
+                }, 1000);
+            }
+        }
+    }
+
+</script>
+
+</html>

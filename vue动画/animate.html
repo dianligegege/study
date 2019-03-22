@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <style>
+        .d1 {
+            width: 200px;
+            height: 100px;
+            background-color: azure;
+        }
+        .fade-enter {
+            color: red;
+            /* transition: all 10s; */
+        }
+
+        .fade-enter-to {
+            color: blue;
+            /* transition: color 5s; */
+        }
+
+        .fade-enter-active {
+            /* color: green; */
+            transition: color 5s;
+        }
+
+        /* .fade-leave {
+            color: green;
+            transition: all 0.5s;
+        }
+
+        .fade-leave-to {
+            color: chocolate;
+            transition: all 0.5s;
+        }  */
+
+        .fade-leave-active {
+            animation: ani1 5s;
+        }
+
+        @keyframes ani1 {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(2);
+            }
+            100% {
+                transform: scale(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="show = !show">
+            点击
+        </button>
+        <transition  name="fade" :duration="{enter: 500, leave: 10000}">
+            <div v-if="show" class="d1">
+                    显示隐藏
+            </div>
+        </transition> 
+    </div>
+</body>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            show: true
+        }
+    })
+</script>
+</html>

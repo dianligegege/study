@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function foo(num) {
+            console.log("foo:" + num);
+            // this所在函数被调用时this指向全局
+            this.count++;
+        }    
+        foo.count = 0;
+        // var count = 0;
+        var i;
+        for (i = 0; i < 10; i++) {
+            if (i > 5) {
+                foo(i);
+            }
+        }
+        console.log(foo.count); // 0
+
+        console.log('————————————————————————————————————');
+
+        function foo(num) {
+            console.log("foo:" + num);
+            // this所在函数被调用时this指向全局
+            this.count++;
+        }    
+        foo.count = 0;
+        // var count = 0;
+        var i;
+        for (i = 0; i < 10; i++) {
+            if (i > 5) {
+                // 把foo函数的this上下文指向为foo这个函数
+                foo.call(foo, i);
+            }
+        }
+        console.log(foo.count); // 4
+
+        console.log('————————————————————————————————————');
+
+        function foo0() {
+            var a = 2;
+            this.bar0();
+        }
+        function  bar0() {
+            console.log(this.a); // undefined
+        }
+        foo0();
+        
+        console.log('————————————————调用栈————————————————————');
+
+        // 调用位置是调用栈的倒数第二个调用中，即正在执行的函数的前一个调用中。
+        function baz1() {
+            console.log("调用栈:baz1","调用位置：全局作用域");
+
+            bar1(); // bar的调用位置
+        }
+
+        function bar1() {
+            console.log("调用栈:baz1 -> bar1","调用位置:baz1");
+
+            foo1(); // foo的调用位置
+        }
+
+        function foo1() {
+            console.log("调用栈:baz1 -> bar1 -> foo1","调用位置：bar1");
+        }
+
+        baz1() // baz1的调用位置
+    </script>
+</body>
+</html>

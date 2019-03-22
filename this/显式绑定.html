@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function foo() {
+            console.log(this.a);
+        }
+        var obj = {
+            a:2
+        };
+        foo.call(obj);
+
+        // 相当于下面这样,即把obj变为foo函数的调用者
+        obj1 = {
+            a:2,
+            foo: foo
+        }
+        obj1.foo();
+
+        console.log('————————————————硬绑定————————————————————');
+        function foo1() {
+            console.log(this.a);
+        }
+        var obj1 = {
+            a:2
+        };
+        var a = 1;
+
+        var bar1 = function() {
+            foo1.call(obj1);
+        };
+
+        bar1();
+        setTimeout(bar1,100);
+
+        // 硬绑定的bar1不可能再修改它的this
+        // 这不就相当于直接 bar1()吗？
+        bar1.call(window);
+
+        console.log('————————————————硬绑定的典型场景1————————————————————');
+        // 实现了函数传多个参数
+        function foo2(a,b,c,d) {
+            console.log( this.a, a,b,c,d);
+            return this.a + a + b + c + d;
+        }
+        var obj2 = {
+            a:2
+        }
+        var bar2 = function() {
+            return foo2.apply(obj2, arguments);
+        }
+
+        var b = bar2(1,2,3,4);
+        console.log(b);
+
+        console.log('————————————————展开运算符————————————————————');
+        // 使用展开运算符也可以传多个参数
+        var a1 = [1,2,3,4]
+        function jiegou(a,b,c,d) {
+            console.log(a+b+c+d);
+        }
+        jiegou(...a1);
+
+        console.log('————————————————硬绑定的典型场景2————————————————————');
+        // 定义一个绑定函数
+
+        function foo3(something) {
+            console.log(this.a, something);
+            return this.a + something;
+        }
+        function bind(fn, obj) {
+            return function() {
+                return fn.apply(obj, arguments);
+            };
+        }
+
+        var obj3 = {
+            a: 2
+        }
+        var bar3 = bind(foo3, obj3);
+
+        var b = bar3(3);
+        console.log(b);
+
+
+        console.log('————————————————Function.prototype.bind————————————————————');
+
+        // fun.call(),fun.apply()是直接运行函数，而fun.bind是返回一个函数,即bind操作只是进行绑定this
+
+        function foo4(something) {
+            console.log(this.a, something);
+            return this.a+something
+        }
+        var obj4 = {
+            a: 2
+        }
+        var bar4 = foo4.bind(obj4);
+
+        var b1 = bar4(3);
+        console.log(b1);
+
+        console.log('————————————————API 调用的‘上下文’————————————————————');
+        function foo5(el) {
+            console.log(el, this.id);
+        };
+
+        var obj5 = {
+            id: "awesome"
+        }; // 这个分号必不可少
+        // 调用foo()时把this绑定到obj
+        [1,2,3,4].forEach(foo5, obj5);
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // function * hellogenerator() {
+    //     yield 'step1';
+    //     yield 'step2';
+    //     return 'ending';
+    // }
+
+    // var fun1 = hellogenerator();
+    // fun1.next();
+    // fun1.next();
+    // fun1.next();
+    // var s1 = fun1().next();
+    // console.log(s1)
+
+    // var hw = (function* helloWorldGenerator() {
+    //     yield 'hello';
+    //     yield console.log('yield');
+    //     return 'ending';
+    // })();
+
+    // // var hw = helloWorldGenerator();
+
+    // console.log(hw.next())
+    // console.log(hw.next())
+    // console.log(hw.next())
+    // console.log(hw.next())
+
+    function* foo(x) {
+        var y = 2 * (yield (x+1));
+        var z = yield (y/3);
+        return (x+y)
+    }
+
+    var a = foo(5);
+    console.log(a.next());
+    console.log(a.next());
+    console.log(a.next());
+
+    var b = foo(5);
+    console.log(b.next(5));
+    console.log(b.next(5));
+    console.log(b.next(5));
+</script>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function now() {
+            return 21;
+        }
+        function later() {
+            answer = answer * 2;
+            console.log('Meaning of life', answer);
+        }
+
+        var answer = now();
+        
+        setTimeout( later, 1000); // 42
+
+        // 异步控制台
+        var a = {
+            index: 1
+        };
+        console.log(a);
+        a.index++;
+        
+        // 声明提升
+        var a = 20;
+        function foo() {
+            a = 21;
+        };
+        foo();
+        console.log('a',a); // 21
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!-- 方法一script写模板 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <mycom level=2>
+            script模板
+        </mycom>
+    </div>
+</body>
+
+<script type="text/x-template" id="template1">
+    <h1 v-if="level == 1">
+        <slot></slot>
+    </h1>
+    <h2 v-else-if="level == 2">
+        <slot></slot>
+    </h2>
+    <h3 v-else-if="level == 3">
+        <slot></slot>
+    </h3>
+</script>
+
+<script>
+   
+
+    Vue.component('mycom',{
+        template: '#template1',
+        props: ['level']
+    })
+
+    new Vue({
+        el:'#app',
+        mounted() {
+            console.log(this.level)
+            // 打印undefined???
+        }
+    })
+    
+</script>
+</html>

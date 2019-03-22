@@ -1,0 +1,42 @@
+<!-- 方法三render -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <mycom level=2>
+            render
+        </mycom>
+    </div>
+</body>
+
+<script>
+   
+
+    Vue.component('mycom',{
+        render: function(createElement) {
+            return createElement(
+                'h' + this.level,
+                this.$slots.default
+            )
+        },
+        props: ['level']
+    })
+
+    new Vue({
+        el:'#app',
+        mounted() {
+            console.log(this.level)
+            // 打印undefined???
+        }
+    })
+    
+</script>
+</html>

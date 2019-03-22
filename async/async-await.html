@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>async-await</title>
+</head>
+<body>
+    <script>
+        
+        async function basicDemo() {
+            let result = await Math.random();
+            console.log(result);
+        }
+
+        basicDemo();
+
+        // async 返回一个promise,return值相当于Promise.resolve(val)
+        // 若无返回值，则相当于Promise.resolve()
+        async function demo1() {
+            return 123;
+        }
+        demo1().then(val => console.log(val));
+
+
+        // await 后面跟的是普通同步函数则立即执行，如果是异步promise则停止运行async函数，即使后面有同步函数
+        function sleep(waittime) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve('执行promise');
+                }, waittime);
+            })
+        };
+
+        function quick() {
+            console.log('立即执行');
+        };
+
+        async function demo2() {
+            // 按从上倒下顺序执行
+            await quick();
+            console.log(await sleep(2000));
+            await quick();
+        }
+        demo2();
+    </script>
+</body>
+</html>

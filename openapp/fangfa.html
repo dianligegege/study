@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: aquamarine;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div onclick="openApp('QQmusic://','https://play.google.com/store/apps/details?id=jp.co.huobi.japan')">qq音乐</div>
+    <div onclick="openApp('weixin://','https://play.google.com/store/apps/details?id=jp.co.huobi.japan')">微信</div>
+</body>
+<script>
+    //实际上就是新建一个iframe的生成器
+    var createIframe = (function () {
+        var iframe;
+        return function () {
+            if (iframe) {
+                return iframe;
+            } else {
+                iframe = document.createElement('iframe');
+                // iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                return iframe;
+            }
+        }
+    })()
+
+    var openApp = function (localUrl, appstore) {
+        console.log('进入openapp')
+        var openIframe = createIframe();
+        var u = navigator.userAgent;
+        var isIos = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+        if (isIos) {
+            if (isIOS9()) {
+                //判断是否为ios9以上的版本,跟其他判断一样navigator.userAgent判断,ios会有带版本号
+                /* localUrl=createScheme({type:1,id:"sdsdewe2122"},true);//代码还可以优化一下*/
+                window.location.href = localUrl;//实际上不少产品会选择一开始将链接写入到用户需要点击的a标签里
+                return;
+            }
+            //判断是否是ios,具体的判断函数自行百度
+            window.location.href = localUrl;
+            var loadDateTime = Date.now();
+            setTimeout(function () {
+                var timeOutDateTime = Date.now();
+                if (timeOutDateTime - loadDateTime < 1000) {
+                    window.location.href = appstore;
+                }
+            }, 25);
+        } else if (isAndroid) {
+            // alert('判断为安卓')
+            //判断是否是android，具体的判断函数自行百度
+            if (isChrome) {
+                // alert('判断为chrome' + localUrl)
+                //chrome浏览器用iframe打不开得直接去打开，算一个坑
+                window.location.href = localUrl;
+                // openIframe.src = localUrl;
+                // openIframe.onload = function () {
+                //     alert('onload')
+                //     var ifdoc = openIframe.contentDocument || {};
+                //     var ifTitle = ifdoc.title
+                //     if (ifTitle.indexOf("404") >= 0 || ifTitle.indexOf("错误") >= 0 || ifTitle.indexOf("Error") >= 0) {
+                //         alert('跳转到商店')
+                //         window.location.href = appstore;
+                //     }
+                // }
+                // openIframe.onerror = function () {
+                //     alert('onerror')
+                // }
+                // var apptime = setTimeout(function () {
+                //     if (document.visibilityState === "hidden") {
+                //         return
+                //     } else if (document.visibilityState === "visible") {
+                //         alert('状态visible')
+                //         window.location.href = appstore;
+                //     }
+                // }, 2000);
+                document.addEventListener("visibilitychange", () => {
+                    clearTimeout(apptime)
+                });
+                var apptime = setTimeout(function () {
+                    window.location.href = appstore;
+                }, 2000);
+            } else {
+                alert('判断为非chrome')
+                //抛出你的scheme
+                openIframe.src = localUrl;
+                // openIframe.onload = function () {
+                //     alert('onload')
+                //     var ifdoc = openIframe.contentDocument || {};
+                //     var ifTitle = ifdoc.title
+                //     if (ifTitle.indexOf("404") >= 0 || ifTitle.indexOf("错误") >= 0 || ifTitle.indexOf("Error") >= 0) {
+                //         alert('跳转到商店')
+                //         window.location.href = appstore;
+                //     }
+                // }
+                // openIframe.onerror = function () {
+                //     alert('onerror')
+                // }
+                document.addEventListener("visibilitychange", () => {
+                    clearTimeout(apptime)
+                })
+                var apptime = setTimeout(function () {
+                    // if (document.visibilityState === "hidden") {
+                    //     alert('状态hidden')
+                    //     clearTimeout(apptime)
+                    //     return
+                    // } else if (document.visibilityState === "visible") {
+                    //     alert('状态visible')
+                    //     window.location.href = appstore;
+                    // }
+                    window.location.href = appstore;
+                }, 2000);
+            }
+        } else {
+            //主要是给winphone的用户准备的,实际都没测过，现在winphone不好找啊
+            openIframe.src = localUrl;
+            setTimeout(function () {
+                window.location.href = "你的下载地址";
+            }, 500);
+        }
+    }
+</script>
+
+</html>

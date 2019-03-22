@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>promise</title>
+</head>
+
+<body>
+    <script>
+        var flag1 = true;
+        const promise1 = new Promise(function (resolve, reject) {
+            if (flag1) {
+                resolve(1)
+            } else {
+                reject(2)
+            }
+        });
+        promise1.then(
+            x => {
+                console.log(x)
+            },
+            y => {
+                console.log(y)
+            }
+        );
+        // 1
+
+        var flag2 = false;
+        const promise2 = new Promise(function (resolve, reject) {
+            if (flag2) {
+                return resolve(1)
+            }
+            reject(2)
+        });
+        promise2.then(
+            x => console.log(x),
+        ).catch(
+            (err) => console.log(err)
+        ).then(
+            (err) => console.log("catch返回promise")
+        )
+
+        var flag3 = true;
+        const promise3 = new Promise(function (resolve, reject) {
+            if (flag3) {
+                return resolve(1)
+            }
+            reject(2)
+        });
+        promise3.then(
+            (result) => console.log(result)
+        ).finally(
+            () => console.log("finally")
+        )
+
+
+        const p1 = new Promise(
+            (resolve, reject) => resolve('hello')
+        ).then(result => result);
+
+        const p2 = new Promise(
+            (resolve, reject) => {
+                throw new Error('扔个错')
+            }
+        ).catch(e => e)
+
+        Promise.all([p1, p2])
+            .then(([r1, r2]) => console.log("r1=" + r1 + "  r2=" + r2))
+            .catch(e => console.log('e' + e));
+    </script>
+</body>
+
+</html>

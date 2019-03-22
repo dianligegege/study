@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var ar1 = [1,2];
+        ar1.push(...[3,4,5]);
+        ar1.push(6,7,8);
+        ar1.push(..."901")
+        console.log(ar1);
+        
+        var ar2 = [...ar1];
+        console.log(ar2);
+
+        ar1[0] = '改';
+
+        console.log(ar2);
+
+        const ar3 = [1,2,3];
+        const ar4 = [4,5,6];
+        const ar5 = [...ar3,...ar4];
+        console.log(ar5);
+        ar5[0] = 0;
+        console.log(ar3);
+        ar3[0] =10;
+        console.log(ar5);
+
+        const ar6 = [1,2,3];
+        const ar7 = [4,5,6];
+        const ar8 = ar6.concat(ar7);
+        console.log(ar8);
+        ar6[0] = 0;
+        console.log(ar8);
+        ar8[0] = 10;
+        console.log(ar6);
+    </script>
+</body>
+</html>

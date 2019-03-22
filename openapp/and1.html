@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: aquamarine;
+            margin: 20px;
+        }
+
+        #isdown {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div onclick="openApp('QQmusic://','deeplink','https://play.google.com/store/apps/details?id=jp.co.huobi.japan')">
+        qq音乐</div>
+    <div onclick="openApp('weixin://','deeplink','https://play.google.com/store/apps/details?id=jp.co.huobi.japan')">微信
+    </div>
+    <div id="isdown" onclick="tostore()">应用商店下载</div>
+</body>
+<script>
+    //实际上就是新建一个iframe的生成器
+    var createIframe = (function () {
+        var iframe;
+        return function () {
+            if (iframe) {
+                // iframe.removeAttribute("src");
+                return iframe;
+            } else {
+                iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                return iframe;
+            }
+        }
+    })()
+    function tostore() {
+        alert('dianjia')
+        window.location.href = 'https://play.google.com/store/apps/details?id=jp.co.huobi.japan';
+    }
+    var openApp = function (localUrl, deeplink, appstore) {
+
+        var createScheme = function (options, islink) {
+            var urlScheme = islink ? deeplink : localUrl;
+            for (var item in options) {
+                urlScheme = urlScheme + item + "=" + encodeURIComponent(options[item]) + "&";
+            }
+            urlScheme = urlScheme.substring(0, urlScheme.length - 1);
+            return urlScheme;
+            // return islink ? urlScheme : encodeURIComponent(urlScheme);
+        }
+
+        console.log('进入openapp')
+        var openIframe = createIframe();
+        var u = navigator.userAgent.toLocaleLowerCase();
+        var isIos = !!u.match(/\(i[^;]+;( u;)? cpu.+mac os x/); //ios终端
+        var isAndroid = u.indexOf('android') > -1 || u.indexOf('adr') > -1; //android终端
+        var isChrome = u.indexOf("chrome") > -1;
+        var isOpera = u.indexOf("opr") > -1 || u.indexOf('opera') > -1;
+        function isAndroid6() {
+            var v_info = u.match(/android [\d._]+/gi);
+            version = (v_info + "").replace(/[^0-9|_.]/ig, "").replace(/_/ig, ".");
+            version = parseInt(version.split('.')[0])
+            return version > 6 ? true : false;
+        };
+        function isIOS9() {
+            var reg = /os [\d._]+/gi;
+            var v_info = u.match(reg);
+            console.log(v_info)
+            version = (v_info + "").replace(/[^0-9|_.]/ig, "").replace(/_/ig, "."); //得到版本号9.3.2或者9.0
+            version = parseInt(version.split('.')[0]); // 得到版本号第一位
+            return version > 9 ? true : false;
+        };
+        if (isIos) {
+            if (isIOS9()) {
+                console.log('判断为ios9')
+                // 使用通用链接
+                localUrl = createScheme({ type: 1, id: "sdsdewe2122" }, true);
+                window.location.href = localUrl;
+                return;
+            }
+            window.location.href = localUrl;
+            var loadDateTime = Date.now();
+            setTimeout(function () {
+                var timeOutDateTime = Date.now();
+                if (timeOutDateTime - loadDateTime < 1000) {
+                    window.location.href = appstore;
+                }
+            }, 25);
+        } else if (isAndroid) {
+            var loadDateTime = Date.now();
+
+            if(isChrome && !isOpera) {
+                // alert('chrome'+localUrl)
+                window.location.href = localUrl;
+            } else {
+                if(isAndroid6) {
+                    // alert('安卓6')
+                    // 现在没有applink,先使用scheme
+                    openIframe.src = localUrl;
+                    // window.location.href = 'applink';
+                } else {
+                    alert('其他')
+                    openIframe.src = localUrl;
+                }
+            }
+
+            // 判断是否已跳转到app,若是则删除跳转到下载页的定时器
+            document.addEventListener("visibilitychange", () => {
+                clearTimeout(apptime)
+            })
+            var apptime = setTimeout(function () {
+                // window.location.href = appstore;
+                var timeOutDateTime = Date.now();
+                alert(timeOutDateTime - loadDateTime)
+                if (timeOutDateTime - loadDateTime < 3000) {
+                    document.getElementById('isdown').style.display = 'block'
+                }
+            }, 2000);
+        }
+    }
+</script>
+
+</html>
