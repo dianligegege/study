@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        var name5= 'name5';
+
+        var p = {
+            name1: 'zhangli',
+
+            "name2": 'zhangli',
+
+            // es2016
+            [name]: 'zhangli',
+
+            ["name4"]: 'zhangli', // 相当于 “name”: "zhangli"
+
+            // 正确用法,先定义一个变量name5, 相当于 “name5”: "zhangli"
+            [name5]: 'zhangli'
+        }
+
+        var toname1 = "name1";
+        var toname2 = "name2";
+        var toname = "name";
+        var toname4 = "name4";
+        var toname5 = "name5";
+
+        console.log(p);
+
+        console.log('################################')
+
+        console.log(p.name1);  // zhangli
+        // console.log(p."name1"); 错误写法
+        // console.log(p[name1]);  报错 
+        console.log(p["name1"]); // zhangli
+        console.log(p.toname1); // undefined  == p."name1"
+        console.log(p[toname1]);  // zhangli  == p["name1"]
+
+        console.log('################################')
+
+        console.log(p.name2);  // zhangli
+        console.log(p["name2"]); // zhangli
+        console.log(p.toname2);  // undefined  == p."name2"
+        console.log(p[toname2]); // zhangli  == p["name2"]
+
+        // obj = { a: 1, ‘b’: 2};
+        // obj.a  ==等价于==   obj['a']  === 1
+        // obj['b'] ==等价于==   obj.b   === 2
+        // 即无论是对象的属性名为标识符还是字符串，使用.的话，后面的最终值就只能跟标识符，使用[]的话，里面的最终值就只能是字符串。
+        // 但是他们的类型不必与对象中的属性名类型相同因为他们的格式会自动转换！
+        // 但是，如果使用标识符获取属性值时，无论是.还是[]，他们进行的第一步是去查找是否存在和标识符同名的变量，如果存在就把标识符替换。这就是为什么我上边会说“最终值”。
+        // 那么，按照上面的说法，其实不是.不能使用变量取值，而是变量所取的值是字符串，所以无法获取值。
+
+        console.log('################################')
+
+        console.log(p.name); // undefined
+        console.log(p["name"]) // undefined
+        console.log(p[name]);  // zhangli  ！！！特例，[]里填入标识符获取成功
+        console.log(p.toname); // undefined  == p."name"
+        console.log(p[toname]); // undefined == p["name"]
+
+        console.log('################################')
+
+        console.log(p.name4); // zhangli
+        console.log(p["name4"]) // zhangli
+        // console.log(p[name4]);  报错
+        console.log(p.toname4); // undefined  == p."name4"
+        console.log(p[toname4]); // zhangli   == p["name4"]
+
+        console.log('################################')
+
+        console.log(p.name5);  // zhangli
+        console.log(p["name5"]); // zhangli
+        console.log(p[name5]); // zhangli
+        console.log(p.toname5);  // undefined  == p."name5"
+        console.log(p[toname5]); // zhangli  == p["name5"]
+
+        // 在ES6中新增了一种方法，可以实现对象中的属性名采用变量，例如var a = "a"; var obj = { [a]:'zhangli' },
+        // 而获取的规则和ES5相同。
+
+
+    </script>
+</body>
+
+</html>
