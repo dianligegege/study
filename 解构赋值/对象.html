@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>对象的解构赋值</title>
+</head>
+<body>
+    <script>
+        {
+            // 注意，对象的解构赋值依据的标准和数组不同，数组是按元素的排列顺序来赋值的，而对象是根据属性名来进行匹配的
+            let { foo, bar } = { bar:'aaa', foo: 'bbb' };
+            // 上面这种写法是let { foo:foo, bar:bar } = { bar:'aaa', foo: 'bbb' };的简写
+            console.log(foo);// aaa
+
+            let {baz} = { foo:'aaa', abr: 'fafa' };
+            console.log(baz); // undefined
+
+            // 解构赋值实际是下面这种写法的简写
+            let { a:a, b:b } = { a: 'aaa', b: 'bbb' };
+            // 所以第一个a只是匹配模式，真正匹配的值是第二个a,相当于声明一个变量（第二个）a然后对其赋值，而匹配的依据就是在右边找同名属性a。
+
+            // 嵌套模式的对象
+            let obj = {
+                p: [
+                    'hello',
+                    { y: 'world'}
+                ]
+            };
+
+            let { p: [x, { y }] } = obj;
+            //相当于 { p: [x, { y }] } = { p:['hello', { y:'world' }] }
+            console.log(x); // hello
+            console.log(y); // world
+            // console.log(p); // Uncaught ReferenceError: p is not defined
+            // 之所以报错是因为p只是一个匹配模式，他只负责来进行找到匹配项，真正赋值的是冒号后面的值
+
+            // 要想对p进行赋值，可以如下这样写,这样的话就是以左p为匹配模式，对右p进行赋值
+            let { p:p, p: [x1, { y1 }] } = obj;
+            console.log(p); // ['hello', { y:'world' }]
+            // 根据开头提到的简化写法，可以简写成
+            // let { p, p: [x1, { y1 }] } = obj;
+
+            //多层嵌套，看清匹配模式与匹配内容
+            let node = {
+                loc: {
+                    start: {
+                        line:1
+                    }
+                }
+            };
+            let { loc, loc: { start }, loc: { start: { line } } } = node;
+            //首先上面这种写法用到了简化写法，本质是{ loc:loc, loc: { start:start }, loc: { start: { line:line } } }
+            // loc:loc中，左loc是匹配模式，右loc匹配值
+            // loc: { start:start }中，注意！ loc和左start都是匹配模式，真正匹配的是右start
+            //  loc: { start: { line:line } }中，同理只有最右边的line会赋值，前面的都只是在匹配模式
+            console.log(loc); // { start: { line:1 } }
+            console.log(start); // { line:1 }
+            console.log(line); // 1
+        } 
+        {
+            // 默认值
+            let { x = 3 } = {}; // x = 3 这种写法是 { x:x=3 }的简写
+            let {x0, y0 = 5} = { x0:1 }; // 是{ x0:x0, y0:y0=5 }的简写
+            console.log(x0,y0);// 1,5
+
+            let {x1: y1= 3} = {};
+            // console.log(x1); // x1 is not defined
+            console.log(y1);// 3
+
+            let { x2: y2=3 } = { x2: 5 }
+            console.log(y2); // 5
+            // 由上可知，默认值生效的条件是，对象的匹配属性值严格等于undefined
+
+            // 默认值也可以取前面的匹配值(注意不是匹配模式)
+            let {x3:x3to, y3=x3to} = {x3:'x3'};
+            console.log(x3to); // x3
+            console.log(y3); // x3
+        }
+        {
+            // 匹配模式匹配不上会undefined
+            let { foo } = { bar: 'baz' };
+            console.log(foo); // undefined
+
+            // undefined在取值就会报错
+            // let {foo1: {bar1}} = {bar1: 'baz'}; 报错Uncaught TypeError: Cannot destructure property `bar1` of 'undefined' or 'null'.
+        }
+        {
+            // 先声明变量，再赋值的话,要加一个括号，因为js会把大括号当成代码块
+            let x;
+            ({x} = {x: 1});
+            console.log(x); // 1
+        }
+        {
+            // 还可以这样用
+            let { log, sin,  coe } = Math;
+            console.log(sin(1));
+
+            // let obj = {
+            //     a:2
+            // }
+            // let {a:a} = obj;
+            // console.log(a); // 2
+
+            let arr = [1,2,3];
+            let { 0:first, [arr.length - 1]: last } = arr;
+            console.log(first,last);//  1  3
+            // []写法属于”属性名表达式“
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>用途</title>
+</head>
+<body>
+    <script>
+        {
+            // 交换变量的值
+            let x = 1;
+            let y =2;
+            [x, y] = [y, x]
+        }
+        {
+            // 从函数返回多个值
+
+            // 返回一个数组 
+            function example() {
+                return [1, 2, 3];
+            }
+            let [a, b, c] = example();
+
+            // 返回一个对象
+            function example1() {
+                return {
+                    foo: 1,
+                    bar: 2
+                };
+            }
+            let { foo, bar } = example1();
+        }
+        {
+            // 函数参数的定义
+
+            // 参数是一组有序的值
+            function f([x, y, z]) {
+                return
+            }
+            f([1, 2, 3]);
+
+            // 参数是一组无序的值
+            function f1({x, y, z}){
+                return
+            };
+            f1({ x:1, y:2, z:3 });
+        }
+        {
+            // 提取JSON数据
+            let jsonData = {
+                id: 23,
+                status: 'OK',
+                data: [23, 3]
+            };
+            let { id, status, data: number } = jsonData;
+            console.log(id, status, number);
+            // 23, 'OK' [23, 3]
+        }
+        {
+            // 函数参数的默认值
+        }
+        {
+            // 遍历Map结构
+            const map = new Map();
+            map.set('first', 'hello');
+            map.set('second', 'world');
+
+            for (let [,value] of map) {
+                console.log(value);// hello world
+            }
+        }
+        {
+            // 输入模块的指定方法 ,好像一直在用
+            const { SourceAgblag } = require(jQuery)
+        }
+
+
+    </script>
+</body>
+</html>

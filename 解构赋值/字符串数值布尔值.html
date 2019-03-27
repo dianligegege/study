@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>字符串数值布尔值</title>
+</head>
+<body>
+    <script>
+        {
+            // 字符串
+
+            let [a,b,c,d,e] = "hello";
+            console.log(a,b,c,d,e); // hello
+            let { 0:f,1:g,2:h,3:i,4:j } = "hello";
+            console.log(f,g,h,i,j); // hello
+
+            //可以把字符串当成类数组，所以可以使用数组或对象的解构赋值方法对其解构赋值
+        }
+        {
+            // 数值，布尔值
+            let { toString: s } = 123;
+            console.log(s === Number.prototype.toString);// true
+
+            let { toString:s1 } = true;
+            console.log(s1 === Boolean.prototype.toString)// true
+
+            //解构赋值的规则是，只要等号右边的值不是对象或数组，就先将其转为对象。
+            //由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错。
+
+        }
+    </script>
+</body>
+</html>
