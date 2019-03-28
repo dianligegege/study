@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>属性名表达式</title>
+</head>
+<body>
+    <script>
+        {
+            // ES5两种定义对象属性的方法
+            // 1
+            var obj={};
+            obj.foo = true;
+            // 2
+            obj['a' + 'bc'] = 123;
+            console.log(obj); // { foo: true,abc: 123 }
+
+            // 但是当使用字面量方式定义对象（使用大括号）时，ES5只能用方法一
+            var obj1 = {
+                foo: true,
+                abc: 123
+            }
+            // ES6中允许对象名使用变量表示，语法就是加上中括号
+            let propKey = 'foo';
+            let obj2 = {
+                [propKey]: true,
+                ['a' + 'bc']: 123
+            }
+            console.log(obj2);// { foo: true,abc: 123 }
+        }    
+        {
+            // 属性名表达式不能和属性简洁表示法一起使用，会报错
+
+            // 属性值简洁表示法
+            const bar = 'abc';
+            const baz = {bar};// 相当于 baz = { bar:bar }, 1.属性名属性值同名省略，2.属性值可以使用变量,这两个条件要同时成立
+            console.log(baz);//{bar:"abc"} 
+
+            // 属性名表达式
+            const foo = 'babf';
+            const baz1 = { [foo]:'abc' }; // 属性名使用变量
+            console.log(baz1); // { babf:"abc" }
+
+            // 同时使用
+            const foo1 = "bar";
+            const bar1 = 'abc';
+            // const baz2 = { [foo1] }; 报错，也就是说属性名使用变量，就必须加冒号带个值
+
+            // 但是对于函数，似乎可以同时使用
+            let fun = 'fun1'
+            let obj = {
+                [fun]() {
+                    console.log('同时使用');
+                }
+                //原始方法 "fun1" :function() {}
+                // 使用属性名表达式： [fun]: function() {}
+                // 使用属性简洁表示法： [fun]() {}
+            }
+            obj.fun1();
+
+            // 注意!当属性名表达式不是一个字符串时，默认会将其转为字符串
+            const key1 = {a:1};
+            const key2 = [1,2];
+            const myobj = {
+                [key1]: 'aff',
+                [key2]: 'fagag',
+            }
+            console.log(myobj);
+            console.log(Object.getOwnPropertyNames(myobj)); // ["[object Object]", "1,2"]
+        }
+    </script>
+</body>
+</html>

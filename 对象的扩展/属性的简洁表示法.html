@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>属性的简洁表示法</title>
+</head>
+<body>
+    <script>
+        {
+            const foo = 'bar';
+            const baz = {foo};
+            console.log(baz); // { foo: "bar" }
+            // 上面是下面的简写
+            const baz1 = { foo:foo };
+            console.log(baz1);// { foo: "bar" }
+
+            const baz2 = { foo1:foo };
+            console.log(baz2);// { foo1: "bar" }
+            // 可以看出，es6允许对象的属性值为一个变量。并且提供一种简写方式，使对象属性名和属性值相同的可以简写为只写属性名
+            // 即 { a:a } = {a}
+
+            // 在函数中体现
+            function f(x, y) {
+                return { x, y }
+            }
+            // 等同于
+            function f1(x, y) {
+                return { x:x, y:y }
+            }
+            //同理，还是体现了两点，1，允许在对象中使用变量，2， 同名属性简写
+            // 注意！和函数解构赋值的区别，解构赋值是实参与形参之间的运算，而在这里是参数与函数内参数的关系
+        } 
+        {
+            // 一直在用的方法简写
+            const o = {
+                fun () {
+                    return 'hello';
+                }
+            }
+            console.log(o);
+            // 等同于 fun: function() { return 'hello'; }
+            const o1 = {
+                fun: function() {
+                    return 'hello';
+                }
+            }
+
+            // 一个例子
+            let birth = '2019'
+            const person = {
+                name: 'zhangli',
+                birth,
+                 // 等同于 birth:birth,  即birth:’2019
+                hello() { console.log('我的名字是', this.name) }
+                // 等同于 hello: function(){......}
+            };
+
+            // 用法
+            function getpoint() {
+                const x =1;
+                const y =10;
+                console.log({x,y});
+            }
+            getpoint(); // {x:1,y:10}
+        }
+        {
+            // CommonJS模块输出一组变量，就可以使用这种简洁方法
+            function fun1() {
+                return
+            };
+            function fun2() {
+                return
+            };
+            // module.exports = { fun1, fun2};
+            // // 等同于
+            // module.exports = {
+            //     fun1: fun1,
+            //     fun2: fun2
+            // };
+        }
+        {
+            const obj = {
+                class() {}
+            };
+            console.log(obj);
+            // class本来是关键字，是不能做函数名的，但是简洁写法的属性名总是字符串，所以等同于
+            const obj1 = {
+                'class': function() {}
+            };
+        }
+    </script>
+</body>
+</html>
