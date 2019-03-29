@@ -60,7 +60,7 @@
             let r1 = await sleep1(500, 'req1')
             let r2 = await sleep1(500, 'req2'+r1)
             let r3 = await sleep1(500, 'req1'+r2);
-            console.log(r1,r2,r3);
+            console.log(r1,r2,r3); // req1 req2req1 req1req2req1
         };
         demo3();
     </script>

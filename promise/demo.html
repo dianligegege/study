@@ -13,6 +13,7 @@
         var flag1 = true;
         const promise1 = new Promise(function (resolve, reject) {
             if (flag1) {
+                console.log('resolve之前');
                 resolve(1)
             } else {
                 reject(2)
@@ -33,14 +34,15 @@
             if (flag2) {
                 return resolve(1)
             }
+            console.log('reject之前');
             reject(2)
         });
         promise2.then(
             x => console.log(x),
         ).catch(
-            (err) => console.log(err)
+            (err) => console.log(err) // 2
         ).then(
-            (err) => console.log("catch返回promise")
+            (err) => console.log("catch返回promise") // catch返回promise
         )
 
         var flag3 = true;
@@ -51,9 +53,9 @@
             reject(2)
         });
         promise3.then(
-            (result) => console.log(result)
+            (result) => console.log(result) // 1
         ).finally(
-            () => console.log("finally")
+            () => console.log("finally") // finally
         )
 
 
@@ -68,7 +70,7 @@
         ).catch(e => e)
 
         Promise.all([p1, p2])
-            .then(([r1, r2]) => console.log("r1=" + r1 + "  r2=" + r2))
+            .then(([r1, r2]) => console.log("r1=" + r1 + "  r2=" + r2)) // r1=hello r2=Error:扔个错
             .catch(e => console.log('e' + e));
     </script>
 </body>
