@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* 交集选择器 */
+        .p1.p2 {
+            color: red;
+        }
+
+        /* 并集选择器 */
+        .p1,
+        .p2 {
+            color: blue;
+        }
+
+        /* 后代选择器 */
+        .d1 .p3 {
+            color: aquamarine;
+        }
+    </style>
+</head>
+<body>
+    <div class="d1">
+        <p class="p1 p2">我是p1</p>
+        <p class="p2">我是p2</p>
+        <p class="p3">我是p3</p>
+    </div>
+    <div class="d2">
+        <p class="p1">我是d2p1</p>
+        <p class="p2">我是d2p2</p>
+        <p class="p3">我是d2p3</p>
+    </div>
+</body>
+</html>

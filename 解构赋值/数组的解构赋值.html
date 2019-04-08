@@ -7,7 +7,6 @@
     <title>解构赋值</title>
 </head>
 <body>
-</body>
 <script>
     {
         let [a, b, c] = [1, 2, 3];
@@ -18,8 +17,10 @@
         // [head, ...tail] 是和一个数组进行解构赋值,所以写成数组的样式，实际赋值的是数组内的元素
         console.log(tail); // [2,3,4]
 
-        let ar1 = [, , third] = [1,2,3];
+        let first = 0;
+        let ar1 = [first, , third] = [1,2,3];
         console.log(third); // 3
+        console.log(first); // 1
         // third是一个全局变量可以获取到
         console.log(ar1); // [1, 2, 3]
 
@@ -72,14 +73,13 @@
         };
         // 函数不会运行，bar直接先赋值为1
         let [bar = f()] = [1];
+        console.log(bar); //1
 
         let [x1 = 1, y1 = x1] = []; // x1 = 1, y1 = 1
         let [x2 = 1, y2 = x2] = [2]; // x2 = 2,y2 = 2
         let [x3 = 1, y3 = x3] = [2, 3]; // x3 = 2,y3 = 3
         // 总而言之，最终结果以右边数组数据为准
     }
-    
-
-
 </script>
+</body>
 </html>
