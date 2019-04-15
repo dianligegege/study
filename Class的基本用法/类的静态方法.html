@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>类的静态方法</title>
+</head>
+<body>
+    <script>
+        {
+            // 在方法前加上static，表示该方法不会被继承，而是直接通过类来调用
+            class Foo {
+                static getname() {
+                    console.log('zhangli');
+                }
+            };
+
+            Foo.getname(); // zhangli
+
+            var foo1 = new Foo();
+            // foo1.getname(); // Uncaught TypeError: foo1.getname is not a function
+        }
+    </script>
+</body>
+</html>

@@ -9,8 +9,168 @@
 <body>
     <script>
         {
-            
-        }    
+            // ES5写法
+            function Point(x, y) {
+                this.x = x;
+                this.y = y;
+            }
+            Point.prototype.toString = function () {
+                return `(${this.x},${this.y})`;
+            };
+            var p = new Point(1, 2);
+            console.log(p.toString());
+
+            // ES5中定义的方法可以枚举
+            console.log(Object.keys(Point.prototype)); // ["toStroing"]
+        }
+        {
+            // ES6 Class写法
+            class Point {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                }
+                // 直接写方法名，不写'function'
+                toString() {
+                    return `(${this.x},${this.y})`;
+                }
+            }
+            var p = new Point(1, 2);
+            console.log(p.toString());
+
+            console.log(typeof Point); // functioin
+            console.log(Point === Point.prototype.constructor);// true
+
+            // 可以吧Class看成构造函数和原型写法的语法糖，直接在Class中写的函数相当于定义在函数原型上的函数，
+            // 而在Class中的构造函数可以省略不写，如下
+            class Nocons {
+                myfun() {
+                    return ('没有constructor函数');
+                }
+            }
+            var nocons1 = new Nocons();
+            console.log(nocons1.myfun()); // 没有constructor函数
+
+            // 类内部定义的方法，都是不可枚举的,而在ES5的写法中可以枚举
+            console.log(Object.keys(Point.prototype)); // []
+
+            // Object.assgin https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+        }
+        {   
+           // constructor方法
+           // constructor方法是类的默认方法，通过new命令生成对象实例时，自动调用该方法。
+           // 一个类必须有constructor方法，如果没有显式定义，一个空的constructor方法会被默认添加。
+
+        //    class Point {
+
+        //    }
+           // 等同于
+        //    class Point {
+        //        constructor(){}
+        //    }
+
+            // 也可以指定返回一个函数，则new的实例不是同类的实例
+            // Object.create() https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/create
+            var obj1 = {
+                name: 'zhangli'
+            };
+            class Foo {
+                constructor() {
+                    return Object.create(obj1)
+                }
+                sayname() {
+                    retun (this.name);
+                }
+            }
+            var fun1 = new Foo();
+            console.log(fun1.name); // zhangli
+            // console.log(fun1.sayname()) // Uncaught TypeError: fun1.sayname is not a function
+
+            // Class调用必须使用new，否则报错
+            // var fun2 = Foo(); Uncaught TypeError: Class constructor Foo cannot be invoked without 'new'
+        }
+        {
+            // getter setter
+            // https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/get
+            // get语法将对象属性绑定到查询该属性时将被调用的函数。相当于把一个return函数变为一个值为return值的属性
+
+            var obj1 = {
+                get name() {
+                    return 'zhangli';
+                },
+                sex() {
+                    return 'man';
+                },
+                // set函数必须传参
+                set name(value) {
+                    console.log('触发set函数')
+                }
+            }
+            console.log(obj1.name); // zhangli
+            console.log(obj1.sex()); // man
+            // 当尝试设置属性时，set语法将对象属性绑定到要调用的函数。也就是当设置属性时，触发set函数，函数内容不重要
+            obj1.name = 'dianli'; // 触发set函数
+
+            // 在Class中使用方法相同
+        }
+        {
+            // 类的属性名，可以使用表达式
+            let myname = 'zhangli';
+            class Myclass {
+                [myname]() {
+                    return 
+                }
+            }
+        }
+        {
+            // Class表达式
+            class You {
+            }
+            // 可以在外部调用You
+            console.log(You.name); // you
+
+            const MyClass = class Me {
+                getClassName() {
+                    return Me.name;
+                }
+                getMyClassName() {
+                    return MyClass.name;
+                }
+            };
+            let inst = new MyClass();
+            console.log(inst.getClassName()); // Me
+            console.log(inst.getMyClassName()); // Me
+            console.log(inst.name); // undefined
+            console.log(MyClass.name);// Me
+            // console.log(Me.name); // Uncaught ReferenceError: Me is not defined
+            // 使用Class表达式时，Me只在Class的内部可以使用，指当前类，在Class外部，只能用MyClass引用。
+
+            // 所以如果内部没有使用类名，则可以这样写,直接不带类名
+            const MyClass1 = class {}
+
+            // 立即执行的类
+            let person = new class {
+                constructor(name) {
+                    this.name = name;
+                }
+
+                sayname() {
+                    console.log(this.name)
+                }
+            }('zhangli');
+            person.sayname(); // zhangli
+        }
+        {
+            // 注意
+            // 1. 类不存在变量提升
+            // new Foo();  Uncaught ReferenceError: Foo is not defined
+            class Foo{};
+
+            // 2. this指向实例
+            // 可以使用箭头函数，箭头函数的this指向定义时所在的对象
+
+            // 3. 类内使用严格语法
+        }
     </script>
 </body>
 </html>
