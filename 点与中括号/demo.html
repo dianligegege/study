@@ -19,7 +19,9 @@
             "name2": 'zhangli',
 
             // es2016
-            [name]: 'zhangli',
+            [name]: 'zhangli', // 没有报错，而是为空'',可能是因为name为js保留字
+
+            // [name3]: 'zhangli', 报错，没有找到被声明的变量name3
 
             ["name4"]: 'zhangli', // 相当于 “name”: "zhangli"
 
@@ -27,13 +29,20 @@
             [name5]: 'zhangli'
         }
 
+        console.log(p);
+        // {
+        //     name1: "zhangli"
+        //     name2: "zhangli"
+        //     "": "zhangli"
+        //     name4: "zhangli"
+        //     name5: "zhangli"
+        // }
+
         var toname1 = "name1";
         var toname2 = "name2";
         var toname = "name";
         var toname4 = "name4";
         var toname5 = "name5";
-
-        console.log(p);
 
         console.log('################################')
 
@@ -59,11 +68,15 @@
         // 但是，如果使用标识符获取属性值时，无论是.还是[]，他们进行的第一步是去查找是否存在和标识符同名的变量，如果存在就把标识符替换。这就是为什么我上边会说“最终值”。
         // 那么，按照上面的说法，其实不是.不能使用变量取值，而是变量所取的值是字符串，所以无法获取值。
 
-        console.log('################################')
+        console.log('################name################')
 
         console.log(p.name); // undefined
-        console.log(p["name"]) // undefined
-        console.log(p[name]);  // zhangli  ！！！特例，[]里填入标识符获取成功
+        console.log(p["name"]); // undefined
+        console.log(p[name]);  // zhangli  等于下面这样写，正好获取属性为空的属性值
+        console.log(p['']); // zhangli
+        console.log(name); // 空
+        console.log(p[undefined]); // undefined
+        console.log(p[null]);  // undefined
         console.log(p.toname); // undefined  == p."name"
         console.log(p[toname]); // undefined == p["name"]
 
@@ -86,7 +99,11 @@
         // 在ES6中新增了一种方法，可以实现对象中的属性名采用变量，例如var a = "a"; var obj = { [a]:'zhangli' },
         // 而获取的规则和ES5相同。
 
-
+        var obj1 = {a:1}
+        console.log(obj1.name) // undefined
+        console.log('name' in obj1) // false
+        console.log(name) // ''
+        console.log(name1) // Uncaught ReferenceError: name1 is not defined
     </script>
 </body>
 

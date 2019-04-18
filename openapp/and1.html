@@ -25,6 +25,9 @@
         qq音乐</div>
     <div onclick="openApp('weixin://','deeplink','https://play.google.com/store/apps/details?id=jp.co.huobi.japan')">微信
     </div>
+
+    <div onclick="openApp('prefs:root=General','https://play.google.com/store/apps/details?id=jp.co.huobi.japan')">苹果设置</div>
+
     <div id="isdown" onclick="tostore()">应用商店下载</div>
 </body>
 <script>
@@ -44,7 +47,7 @@
         }
     })()
     function tostore() {
-        alert('dianjia')
+        alert('确定跳转到商店');
         window.location.href = 'https://play.google.com/store/apps/details?id=jp.co.huobi.japan';
     }
     var openApp = function (localUrl, deeplink, appstore) {
@@ -81,8 +84,9 @@
             return version > 9 ? true : false;
         };
         if (isIos) {
+            console.log('是ios');
             if (isIOS9()) {
-                console.log('判断为ios9')
+                console.log('判断版本大于ios9')
                 // 使用通用链接
                 localUrl = createScheme({ type: 1, id: "sdsdewe2122" }, true);
                 window.location.href = localUrl;
