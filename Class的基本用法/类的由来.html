@@ -168,6 +168,25 @@
 
             // 2. this指向实例
             // 可以使用箭头函数，箭头函数的this指向定义时所在的对象
+            class Father {
+                myname = 'zhangli';
+                getname() {
+                    console.log(this.myname);
+                }
+            };
+            let son = new Father();
+            let {getname} = son;
+            // getname(); //Uncaught TypeError: Cannot read property 'myname' of undefined
+            // 单一复制方法，this指向了运行时的上下文，所以会报错
+            class Father1 {
+                myname = 'zhangli';
+                getname1= () => {
+                    console.log(this.myname);
+                }
+            };
+            let son1 = new Father1();
+            let {getname1} = son1;
+            getname1(); // zhangli
 
             // 3. 类内使用严格语法
         }

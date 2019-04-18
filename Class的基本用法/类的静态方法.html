@@ -9,7 +9,7 @@
 <body>
     <script>
         {
-            // 在方法前加上static，表示该方法不会被继承，而是直接通过类来调用
+            // 在方法前加上static，表示该方法不会被实例继承，而是直接通过类来调用
             class Foo {
                 static getname() {
                     console.log('zhangli');
@@ -20,6 +20,105 @@
 
             var foo1 = new Foo();
             // foo1.getname(); // Uncaught TypeError: foo1.getname is not a function
+        }
+        {
+            class Foo {
+                constructor(name) {
+                    // 这个this指向实例
+                    this.myname = name
+                }
+                static bar() {
+                    // 这个this指向类
+                    this.baz();
+                }
+                static baz() {
+                    console.log('static baz');
+                }
+                baz() {
+                    console.log('baz');
+                }
+
+                static getNmae() {
+                    console.log(this.myname);
+                }
+                getNmae() {
+                    console.log(this.myname);
+                }
+            }
+            // 静态方法的this指向类，而不是指向实例，this.baz()相当于Foo.baz()
+            Foo.bar(); // static baz
+            // 静态方法可以和方法重名，类调用的是静态方法,注意！只能调用静态方法。
+            Foo.baz(); // static baz
+
+            // 此时实例的myname属性为'zhangli'
+            var foo1 = new Foo('zhangli');
+            // 所以打印zhangli
+            foo1.getNmae(); // zhangli
+            // 类没有myname属性
+            Foo.getNmae(); // undefined
+
+            // 子类可以继承父类的静态方法
+            class bar extends Foo{
+            }
+            bar.baz(); // static baz
+        }
+        {
+            // 实例属性的新写法
+            // 实例属性可以直接写在class内部顶部而不用写在constructor函数内
+            class Foo {
+                myname = 'zhangli';
+
+                getName() {
+                    console.log(this.myname)
+                }
+            }
+            var foo1 = new Foo();
+            foo1.getName(); // zhangli
+        }
+        {
+            // 静态属性
+            // class本身的属性，而不是实例的属性
+            // 目前版本不提供class内部写静态属性的方法
+            // 可以如下方法实现
+            class Foo {
+                static getName() {
+                    console.log(this.myname)
+                }
+            }
+            Foo.myname = 'zhangli';
+            Foo.getName(); // zhangli
+        }
+        {
+            // 私有属性和私有方法，是只能在类的内部访问的方法和属性，外部不能访问。
+            // 同样没有被ES6支持，可以通过设置特定方法/属性名，使用Symbol近似实现
+            const myname = Symbol('myname');
+
+            class Foo{
+                // 公有方法
+                toevery() {
+                    this[myname]()
+                }
+
+                // 私有方法
+                [myname]() {
+                    console.log('我是私有方法');
+                }
+            }
+            // Foo.toevery();  Uncaught TypeError: Foo.toevery is not a function
+            // Foo.myname() Uncaught TypeError: Foo.myname is not a function
+            var foo1 = new Foo();
+            foo1.toevery(); // 我是私有方法
+            // 在外部访问失败
+            // foo1.myname(); Uncaught TypeError: foo1.myname is not a function
+        }
+        {
+            // Symbol
+            let a = Symbol('a');
+            let b = Symbol('a');
+            console.log(a); // Symbol(a)
+            console.log(b); // Symbol(a)
+            console.log(a == b) // false
+            // Symbol里的参数只是用类区分不同的Symbol，没有实际意义
         }
     </script>
 </body>

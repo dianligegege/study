@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Class的继承</title>
+</head>
+<body>
+    <script>
+        {   
+            class Father {
+                constructor() {
+                    this.x = 'father.x';
+                    this.y = 'father.y';
+                }
+            }
+            class Son extends Father{
+                constructor([x, y, color]) {
+                    super(x, y); // 调用父类的constructor(x, y)
+                    this.color = color;
+                }
+
+                toString() {
+                    return this.color + ' ' + super.toString(); // 调用父类的toString()
+                }
+            }
+            var son1 = new Son([, , 'red']);
+            console.log(son1.x); // father.x
+            console.log(son1.y); // father.y
+            console.log(son1.color); // red
+
+            // 子类必须在constructor方法中调用super方法，否则实例会报错
+            class Son2 extends Father{
+                constructor() {
+                    // 使用this之前没有使用super
+                    this.age = '10';
+                }
+            }
+            // var son2 = new Son2(); 
+            // console.log(son2.age);
+            // Class的继承.html:36 Uncaught ReferenceError: Must call super constructor in derived 
+            // class before accessing 'this' or returning from derived constructor
+
+            // 当忽略构造函数时，会默认调用super,不报错
+            class Son3 extends Father{
+            }
+            var son3 = new Son3();
+            console.log(son3.x) // father.x
+        }
+        {
+            // 父类的静态方法，会被子类继承，而静态方法不会被实例继承
+            class Father {
+                static hello() {
+                    console.log('father.hello()')
+                }
+            }
+            class Son extends Father{
+            }
+            Son.hello();// father.hello()
+
+            // 可以使用Object.getPrototypeOf()从子类获取父类
+            console.log(Object.getPrototypeOf(Son) === Father); // true
+        }
+        {
+            // super 关键字 有两个用法
+            // 1. super作为函数调用时，代表父类的constructor函数，相当于把父类的构造函数复制过来，但是其中的this指向子类的实例
+            class Father{
+                constructor() {
+                    this.age = '30';
+                }
+            }
+            class Son extends Father {
+                constructor() {
+                    super(); // 相当于在此处写 this.age = '30'
+                }
+                fun1() {
+                    // super作为函数调用时，只能出现在子类构造函数中，否则报错
+                    // super(); Uncaught SyntaxError: 'super' keyword unexpected here
+                }
+            }
+            var son1 = new Son()
+            console.log(son1.age); // 30
+        }
+        {
+            // 2. super作为对象时，在普通方法中，指向父类的原型对象，在静态方法中，指向父类
+            class Father {
+                // 定义在实例上的age属性
+                age = '14'
+                get name() {
+                    return 'father';
+                }
+            }
+            // 直接定义父类的prototype属性，则子类的super指向父类的原型对象时可以使用。
+            Father.prototype.sex = 'man'
+
+            class Son extends Father {
+                constructor() {
+                    super();
+                    // 此时super用在普通方法中，相当于Father.prototype.name,所以无法获取父类定义在实例上的属性
+                    console.log(super.name); // father
+                    console.log(super.age); // undefined 无法获取定义在实例上的属性
+                    console.log(super.sex); // man
+                }
+            }
+            var son1 = new Son(); // father
+        }
+        {
+            // 在子类普通方法中通过super调用父类的方法时，方法内部的this指向当前的子类实例
+            class Father {
+                constructor() {
+                    this.x = 1;
+                    this.y = 0;
+                    this.myname = 'father'
+                }
+                print() {
+                    console.log(this.x, this.y);
+                }
+                // 箭头函数中的this在子类super中也是指向子类实例
+                jian = () => {
+                     console.log(this.myname);
+                }
+            }
+            class Son extends Father {
+                constructor() {
+                    super();
+                    this.x = 2;
+                    // 可以使用super进行赋值,其中的this同样指向子类实例
+                    super.y = 3;
+                    this.myname = 'son';
+                }
+                m() {
+                    super.print();// 相当于 直接写console.log(this.x) 相当于执行 super.point.call(this)
+                }
+                jian() {
+                    super.jian();
+                }
+            }
+            
+            let son = new Son();
+            son.m(); // 2 3
+            son.jian(); // son  在子类中被改变
+            let father = new Father();
+            father.print(); // 1 0
+
+        }
+        {
+            // 在static中使用super的对象用法，子类中的this指向子类，而不是指向其实例
+            class Father{
+                constructor() {
+                    this.x = 1;
+                }
+                static getx() {
+                    console.log(this.x)
+                }
+            }
+            class Son extends Father{
+                constructor() {
+                    super();
+                    this.x = 2;
+                }
+                static getx() {
+                    super.getx(); // 相当于直接写 console.log(this.x) this指向Son
+                }
+            }
+            Father.getx(); // undefined
+            Son.x = 3;
+            Son.getx(); // 3 
+        }
+    </script>
+</body>
+</html>
