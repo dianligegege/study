@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // get
+            let first = 'first';
+            var obj = {
+                myname: ['z','h','l'],
+            
+                // 标准用法
+                get latest() {
+                    if (this.myname.length == 0) {
+                        return undefined;
+                    }
+                    return this.myname[this.myname.length - 1];
+                },
+
+                // 同名属性和get方法可以互相覆盖，决定于哪个先被定义（即哪个在上，哪个在下）
+                latest: '与get同名的属性',
+
+                // 计算属性名表达式用法
+                get [first]() {
+                    return this.myname[0];
+                },
+                // 我要被删除
+                get del() {
+                    return '我被删除了';
+                }
+            }
+
+            console.log(obj.latest);// 与get同名的属性
+            console.log(obj.first);// z
+            console.log(obj.del); // 我被删除了
+
+            // 使用delete操作符删除getter
+            delete obj.del;
+            console.log(obj.del);// undefined
+
+            // 使用defineProperty定义getter
+            var o = { a:0 };
+            Object.defineProperty(o, "b", { get: function(){return this.a + 1} });
+
+            console.log(o.b); // 1
+            
+            // set
+            var hero = {
+                set heroname(name) {
+                    this.heroname.push(name);
+                },
+                // 同名属性覆盖set方法，反过来会报错，因为set的heroname没有push方法？所以这种同名是不被允许的
+                heroname: [],
+            }
+            hero.heroname = 'ironman';
+            hero.heroname = 'captain';
+            console.log(hero.heroname); // captaion
+        </script>
+    </body>
+</html>

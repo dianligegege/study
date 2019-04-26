@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        {
+            
+            var obj = {};
+            
+            Object.defineProperty(obj, "key", {
+                enumerable: false, // 
+                configurable: false,
+                writable: false,
+                value: 'static'
+            });
+
+            console.log(obj); // {key: "static"}
+
+            delete obj.key;
+            console.log(obj); // {key: "static"}
+
+            obj.key = 'change';
+            console.log(obj); // {key: "static"}
+
+            for (const item in obj) {
+                console.log('key', item);// 空
+            }
+        }
+        {
+            var obj = {key: "static"};
+
+            console.log(obj); // {key: "static"}
+
+            delete obj.key;
+            console.log(obj); // {}
+
+            obj.key = 'change';
+            console.log(obj); // {key: "static"}
+
+            for (const item in obj) {
+                console.log('key', item); // key key
+            }
+        }
+        {
+            var obj = {};
+            Object.defineProperty(obj, 'myname', {
+                get: function() {
+                    return 'zhangli';
+                },
+                set: function(value) {
+                    // 这样写报错
+                    // obj.myname = value;
+                    console.log(value)
+                },
+                enumerable : true,
+                configurable : true
+            })
+
+            console.log(obj); // zhangli
+            obj.myname = 'dianli';
+            console.log(obj.myname); // dianli
+        }
+    </script>
+</body>
+</html>
