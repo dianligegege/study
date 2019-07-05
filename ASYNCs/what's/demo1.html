@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .d1 {
+            width: 300px;
+            height: 300px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="d1"></div>
+    <script>
+        // 异步是按顺序处理以后会发生的事，因为一个程序运行的时间可能会很长，所以无法保证写在该程序下面的程序会按写的顺序
+        // 依次执行，所以当后一个程序需要前一个程序的运行结果时，就需要让这些程序依次执行。 
+        // 回调函数是处理异步比较简单的方法，前一个程序的回调函数就表示在该程序运行完成后再运行这个回调函数。
+        
+        function loadImage(url) {
+            var image = new Image();
+
+            image.onload = () => {
+                resolve(image);
+            };
+
+            image.onerror = () => {
+                reject(new Error('找不到图片'));
+            };
+
+            image.src = url;
+        }
+
+        loadImage('../promise/img/pic.png').then(
+            (img) => {
+                document.getElementsByClassName('d1')[0].appendChild = img;
+            }
+        )
+    </script>
+</body>
+</html>

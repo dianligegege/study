@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .d1 {
+            width: 300px;
+            height: 300px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="d1"></div>
+    <script>
+        function loadImage(url) {
+            var image = new Image();
+            image.src = url;
+            console.log(image);
+
+            image.onload = function() {
+                console.log('onload');
+                return image;
+            };
+
+            image.onerror = function() {
+                console.log('onerror');
+                return("找不到图片路径");
+            }
+        }
+
+        var img1 = loadImage("./img/pic.png");
+        console.log(img1); // undefined 因为控制台打印这一步骤的操作速度过快，所以在图片还未加载完毕就执行打印，
+        // 所以会打印为undefined。正确操作查看 ../what's/demo1.html。
+
+        document.getElementsByClassName('d1')[0].appendChild = img1;
+
+        console.log(new Image('./img/pic.png'))
+    </script>
+</body>
+</html>
