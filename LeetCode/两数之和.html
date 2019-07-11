@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var getSum = function(nums, target) {
+            var arr1 = [];
+            for (let item = 0; item < nums.length - 1; item++) {
+                for (let n = 0; n < nums.length; n++) {
+                    if (nums[item] + nums[n] === target && item != n) {
+                        if (arr1.indexOf(item) == -1) {
+                            arr1.push(item);
+                        };
+                        if (arr1.indexOf(n) == -1) {
+                            arr1.push(n)
+                        };
+                    };              
+                };
+            };
+            console.log(arr1);
+        }    
+        getSum([1,3,4,3,2,5,3,5,2], 4);
+
+        var getSum2 = function(nums, target) {
+            var arr1 = [];
+            for (let i = 0; i < nums.length; i++) {
+                for (let n = 1; n < nums.length; n++) {
+                    if (nums[item] + nums[n] === target) {
+                        
+                    }
+                } 
+                nums.splice(i, 1);               
+            }
+        }
+    </script>
+</body>
+</html>

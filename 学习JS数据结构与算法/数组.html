@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数组</title>
+</head>
+<body>
+    <script>
+        {
+            // concat
+            let ar1 = [1,2,3];
+            let ar2 = [4,5,6];
+            let ar3 = ar1.concat(ar2,7,8,9);
+            console.log(ar3); // [1,2,3,4,5,6,7,8,9]
+        }
+        {
+            let number = [1,2,3,4,5,6,7,8,9];
+
+            // every
+            // 所有元素(every)返回true 才会返回true,一旦元素函数返回 false 就中断函数执行
+            console.log(number.every(
+                (item) => {
+                    console.log(item); // 1
+                    return (item % 2 === 0);
+                }
+            )); // false
+
+            // some
+            // 只要一个元素(some)返回true,就会返回true,同时中断函数执行
+            console.log(number.some(
+                (item) => {
+                    console.log(item); // 1  2 
+                    return item % 2 === 0;
+                }
+            )); // true
+            
+            // forEach
+            number.forEach((item) => {
+                console.log(item % 2 === 0); // false true false ......
+            })
+
+            // map
+            // 返回一个旧数组所有元素处理后的新数组
+            console.log(number.map(
+                (item) => {
+                    return item % 2 === 0;
+                }
+            )); // [false, true, false.....]
+
+            // filter
+            // 返回一个使函数返回 true 的元素组成的新数组，即过滤
+            console.log(
+                number.filter(
+                    (item) => {
+                        return item % 2 === 0;
+                    }
+                )
+            ); // [2, 4, 6, 8]
+
+            // reduce 
+            // arr.reduce(callback(accumulator, currentValue[, index[, array]])[, initialValue])
+            // accumulator 是每次reduce循环的上一次返回值，所以第一次循环它就指代数组的第一个元素，而current指数组的第二个元素，
+            // 当参数包含initialValue时，这个参数就指代第一次循环时的accumulator,而此时current指代数组的第一个元素。
+            console.log(
+                number.reduce(
+                    (acc, current, index) => {
+                        return acc + current;
+                    }
+                )
+            ); // 45
+            console.log(
+                // 不带initialValue
+                number.reduce(
+                    (acc, cur) => {
+                        return Math.max(acc, cur); // 9 
+                        // 第一次循环: 1 和 2 比大小，返回 2
+                        // 第二次循环  上次循环的返回值 2 和 3 比大小，返回 3
+                        // ......
+                    }
+                ),
+                // 带initialValue
+                number.reduce(
+                    (acc, cur) => {
+                        return Math.max(acc, cur);
+                    }, 10
+                    // 第一次循环: 10 和 1 比大小，返回 10 ......
+                ) // 10 
+            );
+
+        }
+    </script>
+</body>
+</html>
