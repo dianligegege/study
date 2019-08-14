@@ -7,13 +7,53 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <div id="d1"></div>
+    <div id="d2"></div>
+    <div id="d3"></div>
+    <div id="d4"></div>
+    <div id="d5"></div>
 </body>
 <script>
-    console.log(document.cookie)
-    document.cookie="name=zhangli;expires=Thu, 18 Dec 2043 12:00:00 GMT;path=/";
-    document.cookie="username=John Doe; expires=Thu, 18 Dec 2043 12:00:00 GMT; path=/";
-    document.cookie='age=17';
-    console.log(document.cookie)
+    document.cookie = "name=zhangli";
+    document.cookie = "age=12";
+    document.cookie = "sex=man";
+    var d1 = document.getElementById('d1');
+    var d2 = document.getElementById('d2');
+    var d3 = document.getElementById('d3');
+    var d4 = document.getElementById('d4');
+    var d5 = document.getElementById('d5');
+
+
+    // var cookies = document.cookie.split('; ');
+    // d1.innerHTML = cookies;
+    // for (var c = 0; c < cookies.length; c++) {
+    //     var d = window.location.hostname.split('.');
+    //     d2.innerHTML = d;
+    //     var cookieBase = encodeURIComponent(cookies[c].split(';')[0].split('=')[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path=';
+    //     console.log(cookieBase);
+    //     var p = location.pathname.split('/');
+    //     console.log(p);
+    //     document.cookie = cookieBase + '/';
+    // }
+
+    deleteAllCookies();
+    function deleteAllCookies() {
+        var cookies = document.cookie.split('; ');
+        for (var c = 0; c < cookies.length; c++) {
+            var d = window.location.hostname.split('.');
+            console.log('d', d);
+            while (d.length > 0) {
+                var cookieBase = encodeURIComponent(cookies[c].split(';')[0].split('=')[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path=';
+                var p = location.pathname.split('/');
+                console.log('p', p);
+                document.cookie = cookieBase + '/';
+                while (p.length > 0) {
+                    document.cookie = cookieBase + p.join('/');
+                    p.pop();
+                };
+                d.shift();
+            }
+        }
+    }
 </script>
 </html>

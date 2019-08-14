@@ -303,7 +303,9 @@
     var foo1 = new Foo();
     foo1.toevery(); // 我是私有方法
     // 在外部访问失败
-    // foo1.myname(); Uncaught TypeError: foo1.myname is not a function
+    foo1.myname(); // Uncaught TypeError: foo1.myname is not a function
+    // 下面这样写依旧可以获取到，所以还需要闭包来把myname这个变量变为只有函数内部才能调用
+    foo1.[myname]; // 我是私有方法
 ```
 
 [Symbol](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Symbol)
