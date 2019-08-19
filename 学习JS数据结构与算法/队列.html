@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>队列</title>
+</head>
+<body>
+    <script>
+        // 队列：先进先出 FIFO (First In First Out)
+        function Queue () {
+            let items = [];
+            // enqueue 队尾添加新项
+            this.enqueue = function (element) {
+                items.push(element);
+            }
+            // dequeue 移除队列的第一项（排在队列最前面的），并返回被移除的项
+            this.dequeue = function () {
+                return items.shift();
+            }
+            // front 返回队列第一个（首先被添加的）元素，队列不变化
+            this.front = function () {
+                return items[0];
+            }
+            // isEmpty 是否为空
+            this.isEmpty = function () {
+                return items.length === 0;
+            }
+            // size 元素个数
+            this.size = function () {
+                return items.length;
+            }
+            // print 
+            this.print = function () {
+                console.log((items.toString()));
+            }
+        };
+        let queue1 = new Queue();
+        queue1.enqueue('zhangli');
+        queue1.enqueue('dianli');
+        queue1.dequeue();
+        queue1.print();// dianli
+        console.log(queue1.size()); // 1
+
+
+        {
+            // 优先队列,优先级越小，排列越靠前
+            function PriorityQueue () {
+                let items = [];
+                this.enqueue = function (element, priority) {
+                    let QueueElement = {
+                        element: element,
+                        priority: priority
+                    }
+                    let added = false;
+                    for (let i = 0; i < items.length; i++) {
+                        if (priority < items[i].priority) {
+                            items.splice(i, 0, QueueElement);
+                            added = true;
+                            break;
+                        }
+                    }
+                    // 当优先级最大时，加到队列最后
+                    if (!added) {
+                        items.push(QueueElement);
+                    }
+                }
+                this.dequeue = function () {
+                    return items.shift();
+                }
+                this.print = function () {
+                    for (let i = 0; i < items.length; i++ ) {
+                        console.log(`${items[i].element}-${items[i].priority}`);
+                    }
+                }
+            };
+
+            let PriQueue1 = new PriorityQueue();
+            PriQueue1.enqueue('zhangli', 0);
+            PriQueue1.enqueue('dianli', 100);
+            PriQueue1.enqueue('gege', 40);
+            PriQueue1.enqueue('hha', 10);
+            PriQueue1.print();
+        }
+
+
+        // 循环队列，击鼓传花
+        // num 可以看为传递次数
+        function game (list, num) {
+            let queue2 = new Queue();
+            list.forEach(item => {
+                queue2.enqueue(item);
+            });
+            for (let i = 0;i < num;i++) {
+                // 关键步骤，即把第一位移动到最后一位实现成一个圈
+                queue2.enqueue(queue2.dequeue());
+                let endMan = queue2.dequeue();
+                console.log(endMan + '滚蛋');
+                if (queue2.size() === 1) {
+                    console.log('冠军是' + queue2.front());
+                    return;
+                }
+            }
+        };
+        let list = ['张', '李', '王', '飞', '周', '红', '大'];
+        game(list, 10);
+    </script>
+</body>
+</html>

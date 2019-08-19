@@ -8,10 +8,7 @@
 </head>
 <body>
     <script>
-        // console.log 快捷函数
-        function cl(item) {
-            console.log(item);
-        }
+        // 栈：后进先出
         class Stack {
             constructor () {
                 this.item = [];
@@ -112,7 +109,7 @@
             console.log(stack1[_item]); // 终于tmd undefined 了，因为取不到变量 _item 了。
 
             // 此时是否已经实现私有属性了呢，然而并不!!!
-            // ES6新增的Object.getOwnPropertySymbols方 法能够取到类里面声明的所有Symbols属性
+            // ES6新增的Object.getOwnPropertySymbols方法能够取到类里面声明的所有Symbols属性
             let objectSymbols = Object.getOwnPropertySymbols(stack1);
             console.log(objectSymbols.length); // 1
             console.log(objectSymbols[0]);
@@ -120,9 +117,56 @@
             stack1.print(); // 1
         }
 
-        
-        
-        
+        // 使用ES6的WeakMap加闭包实现类
+        {
+            let Stack = (function () {
+                const items = new WeakMap();
+                class Stack {
+                    constructor () {
+                        items.set(this, []);
+                    }
+                    push (element) {
+                        let s = items.get(this);
+                        s.push(element);
+                    }
+                    pop () {
+                        let s = items.get(this);
+                        let r = s.pop();
+                        return r;
+                    }
+                    isEmpty () {
+                        let s = items.get(this);
+                        return s.length === 0;
+                    }
+                    print () {
+                        let s = items.get(this);
+                        console.log(s.toString());
+                    }
+                }
+                return Stack;
+            })();
+
+            let stack1 = new Stack();
+            stack1.push(123);
+            stack1.print(); // 123
+
+            // 使用栈解决进制转换,使目标数不断与2相除，然后把余数反向链接即为对应的2进制的数
+            function to2 (decNum) {
+                let stack2 = new Stack();
+                let num = '';
+                while (decNum > 0) {
+                    stack2.push(Math.floor(decNum % 2));
+                    decNum = Math.floor(decNum / 2);
+                    console.log(decNum);
+                };
+                while (!stack2.isEmpty()) {
+                    console.log(num);
+                    num += stack2.pop().toString();
+                };
+                return num;
+            };
+            console.log(to2(10));
+        }
     </script>
 </body>
 </html>
