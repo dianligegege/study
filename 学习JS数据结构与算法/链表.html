@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>链表</title>
+</head>
+<body>
+    <script>
+        {
+            function LinkedList () {
+                let Node = function (element) {
+                    this.element = element;
+                    this.next = null;
+                };
+
+                let length = 0;
+                let head = null;
+
+                // 在列表尾部添加新项
+                this.append = function (element) {
+                    let node = new Node(element);
+                    let current;
+
+                    if (head === null) {
+                        head = node;
+                    } else {
+                        current = head;
+                        while (current.next) {
+                            current = current.next
+                        }
+                        current.next = node;
+                    }
+                    length ++;
+                }
+
+                // 移除元素
+                this.remove = function (position) {
+                    if (position > -1 && position < length) {
+                        let current = head;
+                        let pre;
+
+                        if (position === 0) {
+                            head = current.next;
+                            return head.element;
+                        } else {
+                            for (let i = position; i > 0; i--) {
+                                pre = current;
+                                console.log(current.element);
+                                current = current.next;
+                            }
+                            pre.next = current.next.next;
+                            return current.element;
+                        }
+                        length--;
+                    } else {
+                        return null;
+                    }
+                }
+            }
+
+            let list = new LinkedList();
+            list.append(1);
+            list.append(2);
+            list.append(3);
+            list.append(4);
+            console.log(list);
+            console.log(list.remove(2));
+        }
+    </script>
+</body>
+</html>
