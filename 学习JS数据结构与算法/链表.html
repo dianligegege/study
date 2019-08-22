@@ -36,27 +36,94 @@
                 }
 
                 // 移除元素
-                this.remove = function (position) {
+                this.removeAt = function (position) {
                     if (position > -1 && position < length) {
                         let current = head;
                         let pre;
 
                         if (position === 0) {
                             head = current.next;
-                            return head.element;
                         } else {
-                            for (let i = position; i > 0; i--) {
+                            for (let i = 0; i < position; i++) {
                                 pre = current;
-                                console.log(current.element);
                                 current = current.next;
                             }
-                            pre.next = current.next.next;
-                            return current.element;
+                            pre.next = current.next;
                         }
                         length--;
+                        return current.element;
                     } else {
                         return null;
                     }
+                }
+
+                // 在任意位置插入元素
+                this.insert = function(position, element) {
+                    if (position >= 0 && position <= length) {
+                        let current = head;
+                        let node = new Node(element);
+                        let pre;
+
+                        if (position === 0) {
+                            node.next = head;
+                            head = node;
+                        } else {
+                            for (let i = 0; i < position; i++) {
+                                pre = current;
+                                current = current.next;
+                            }
+                            node.next = current;
+                            pre.next = node;
+                        }
+                        length ++;
+                    } else {
+                        return false;
+                    }
+                }
+
+                // toString方法
+                this.toString = function() {
+                    let current = head;
+                    let arr = [];
+                    // while (current) {
+                        
+                    // }
+                    for (let i = 0; i < length; i++) {
+                        arr.push(current.element);
+                        current = current.next;
+                    }
+                    return arr.toString();
+                }
+
+                // 长度
+                this.size = function () {
+                    return length;
+                };
+
+                // 找到第一个元素位置
+                this.indexOf = function(element) {
+                    let current = head;
+                    for (let i = 0; i < length; i++) {
+                        if (current.element === element) {
+                            return i;
+                        }
+                        current = current.next;
+                    }
+                    return -1;
+                }
+
+                // 移除第一个同值元素
+                this.remove = function(element) {
+                    let index = this.indexOf(element);
+                    return(this.removeAt(index));
+                }
+
+                this.isEmpty = function() {
+                    return lenth === 0;
+                }
+
+                this.getHead = function() {
+                    return head;
                 }
             }
 
@@ -65,8 +132,22 @@
             list.append(2);
             list.append(3);
             list.append(4);
-            console.log(list);
-            console.log(list.remove(2));
+
+            console.log(list.size()); // 4
+
+            console.log(list.removeAt(3)); // 4
+
+            console.log(list.size()); // 3
+
+            console.log(list.toString()); //1,2,3
+
+            list.insert(3, 4);
+
+            console.log(list.toString()); //1,2,3,4
+
+            console.log(list.indexOf(4)); // 3
+
+            console.log(list.remove(4)); // 3
         }
     </script>
 </body>
