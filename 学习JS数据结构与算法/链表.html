@@ -8,7 +8,7 @@
 </head>
 <body>
     <script>
-        {
+        {   // 链表
             function LinkedList () {
                 let Node = function (element) {
                     this.element = element;
@@ -85,9 +85,7 @@
                 this.toString = function() {
                     let current = head;
                     let arr = [];
-                    // while (current) {
-                        
-                    // }
+                    
                     for (let i = 0; i < length; i++) {
                         arr.push(current.element);
                         current = current.next;
@@ -148,6 +146,88 @@
             console.log(list.indexOf(4)); // 3
 
             console.log(list.remove(4)); // 3
+        }
+
+        {
+            // 双向链表
+            function DoublyLinkedList() {
+                let Node = function(element) {
+                    this.element = element;
+                    this.next = null;
+                    this.pre = null;
+                }
+
+                let length = 0;
+                let head = null;
+                // 最后一位
+                let tail = null;
+
+                // 在任意位置插入新元素
+                this.insert = function(position, element) {
+                    if (position >= 0 && position <= length) {
+                        let node = new Node(element);
+                        let prev;
+                        let current = head;
+
+                        if (position === 0) {
+                            if (!head) {
+                                head = node;
+                                tail = node;
+                            } else {
+                                node.next = head;
+                                head.pre = node;
+                                head = node;
+                            }
+                        }else if (position === length) {
+                            node.pre = tail;
+                            tail.next = node;
+                            tail = node;
+                        } else {
+                            for (let i = 0; i < position; i++) {
+                                prev = current;
+                                current = current.next;
+                            }
+                            node.pre = prev;
+                            node.next = current;
+
+                            current.pre = node;
+                            prev.next = node;
+                        }
+                        length ++;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+                // toString方法
+                this.toString = function() {
+                    let current = head;
+                    let arr = [];
+                    
+                    for (let i = 0; i < length; i++) {
+                        arr.push(current.element);
+                        current = current.next;
+                    }
+                    return arr.toString();
+                }
+            }
+
+            let douList = new DoublyLinkedList();
+
+            douList.insert(0, 1);
+
+            console.log(douList.toString()); // 1
+
+            douList.insert(1, 2);
+
+            console.log(douList.toString()); // 1,2
+
+            douList.insert(1, 1.5);
+
+            console.log(douList.toString()); // 1,1.5,2
+
+
         }
     </script>
 </body>
