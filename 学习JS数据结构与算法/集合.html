@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>集合</title>
+</head>
+<body>
+    <script>
+        {
+            // 集合
+            function Set() {
+                let items = {};
+
+                // 是否已存在
+                this.has = function(value) {
+                    return items.hasOwnProperty(value);
+                }
+
+                // 向集合添加一个新的项
+                this.add = function(value) {
+                    if (!this.has(value)) {
+                        items[value] = value;
+                        return true;
+                    }
+                    return false;
+                }
+                
+                // remove
+                this.remove = function(value) {
+                    if (this.has(value)) {
+                        delete items[value];
+                        return true;
+                    }
+                    return false;
+                }
+
+                // clear
+                this.clear = function() {
+                    items = {};
+                }
+
+                // size
+                this.size = function() {
+                    return Object.keys(items).length;
+                }
+
+                // value
+                this.values = function() {
+                    let arr = [];
+                    for (const key in items) {
+                        if (items.hasOwnProperty(key)) {
+                            arr.push(items[key]);
+                        }
+                    }
+                    return arr;
+                }
+
+                // 并集
+                this.union = function(otherSet) {
+                    let unionSet = new Set();
+
+                    let values = this.values();
+                    for (let index = 0; index < this.size(); index++) {
+                        unionSet.add(values[index]);
+                    };
+                    let valuesOther = otherSet.values();
+                    for (let index = 0; index < otherSet.size(); index++) {
+                        unionSet.add(valuesOther[index])                        
+                    };
+                    return unionSet;
+                }
+            }
+
+            let set = new Set()
+            set.add(1);
+            set.add(2);
+            set.add(3);
+            console.log(set);
+            console.log(set.remove(1)); // true
+            console.log(set.size()); // 2
+            console.log(set.values()); // [2, 3]
+
+            let set2 = new Set();
+            set2.add(3);
+            set2.add(4);
+            console.log(set2.values()); // [3, 4]
+
+            let union12 = set.union(set2);
+            console.log(union12.values()); // [2, 3, 4]
+        }    
+    </script>
+</body>
+</html>
