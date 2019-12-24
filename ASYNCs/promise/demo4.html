@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        {
+            // 打印1，2，3，4, 5
+            // 定时器属于宏任务，promise.then()属于微任务，应该是先执行的宏任务里的微任务执行完后，下一个宏任务再执行，但是把定时器放在await里，定时器还是算宏任务，他还是会在最后执行。
+            // 如下，定时器在.then里，但还是在最后执行
+            // 另外使用定时器是为了模拟异步执行，实际使用异步的情况，如请求接口，是会在微任务里执行的。（所以，不要使用定时器来模拟异步？！）
+            setTimeout(_ => console.log(4))
+
+            new Promise(resolve => {
+                resolve()
+                console.log(1)
+            }).then(_ => {
+                setTimeout(() => {
+                    console.log(5);
+                }, 1000);
+            }).then(_ => {
+                console.log(3)
+            })
+
+            console.log(2)
+        }
+
+        {
+            if("false") {
+                console.log('false'); // 'false'
+            }
+        }
+
+    </script>
+</body>
+</html>

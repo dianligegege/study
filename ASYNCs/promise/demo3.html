@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        {
+            let list = [];
+            let obj = {
+                name: 'dafafa',
+                size: "afaf",
+                width: 'fafaf',
+                height: 'fafaf',
+            };
+            let fun1 = new Promise((resolve) => {
+                setTimeout(() => {
+                    for (const key in obj) {
+                        if (obj.hasOwnProperty(key)) {
+                            list.push(obj[key]);
+                        }
+                    }
+                    // 必须要有resolve,不然.then不执行
+                    resolve();
+                }, 2000);
+            });
+            fun1.then(
+                (resolve) => {
+                    console.log(list);
+                }
+            );
+        }
+
+        {
+            // 下面这样写没有异步执行，因为定时器的特殊性，定时器和异步函数存在宏观任务和微观任务的区别
+            // 定时器属于宏任务，promise.then()属于微任务，应该是先执行的宏任务里的微任务执行完后，下一个宏任务再执行，但是把定时器放在await里，定时器还是算宏任务，他还是会在最后执行。
+            let list2 = [];
+            let obj2 = {
+                name: 'dafafa',
+                size: "afaf",
+                width: 'fafaf',
+                height: 'fafaf',
+            };
+    
+            async function fun2() {
+                await setTimeout(() => {
+                    for (const key in obj2) {
+                        if (obj2.hasOwnProperty(key)) {
+                            list2.push(obj2[key]);
+                        }
+                    }
+                }, 2000);
+                await console.log(list2);
+            }
+    
+            fun2();
+        }
+
+        {
+            let list3 = [];
+            let obj3 = {
+                name: 'dafafa',
+                size: "afaf",
+                width: 'fafaf',
+                height: 'fafaf',
+            };
+    
+            async function fun2() {
+                await setTimeout(() => {
+                    list3 = [123];
+                    console.log(list3);
+                }, 2000);
+                await (list3 = [123,123]);
+                await (() => {console.log(list3)})();// 同步执行了
+                await new Promise((resolve) => {
+                    console.log('await-promise', list3);
+                    resolve();
+                });
+                const con1 = await (list3 = ['定义一个变量代表await']);
+                console.log(list3);
+            }
+            fun2();
+        }
+
+        {
+            // 打印1，2，3，4
+            // 定时器属于宏任务，promise.then()属于微任务，应该是先执行的宏任务里的微任务执行完后，下一个宏任务再执行，
+            setTimeout(_ => console.log(4))
+
+            new Promise(resolve => {
+            resolve()
+                console.log(1)
+            }).then(_ => {
+                console.log(3)
+            })
+
+            console.log(2)
+        }
+
+    </script>
+</body>
+</html>

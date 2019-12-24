@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="btn1()">替换字符串</button>
+    <button onclick="btn2()">添加样式</button>
+    <button onclick="btn3()">判断条件</button>
+    <button onclick="btn4()">打印表格</button>
+    <button onclick="btn5()">打印group</button>
+    <button onclick="btn6()">统计次数</button>
+    <button onclick="btn7()">计算耗时</button>
+    <button onclick="btn8()">带三角形的信息</button>
+
+    <script>
+        var btn1 = function () {
+            console.log("%o 被替换，%o被替换，%o被替换", {name: 'zhangli'}, {name: 'adaf'}, 0.23);
+        };
+
+        var btn2 = function () {
+            console.log("%c来点样式", "color: white; background-color: red");
+        }
+
+        var btn3 = function () {
+            // 判断条件错误是触发
+            console.assert(2 < 1, "2<1是错误的");
+        }
+
+        var btn4 = function () {
+            console.table([
+                {name: 'zang'},
+                {name: 'galgal'},
+            ]);
+        }
+
+        var btn5 = function () {
+            console.group('第一梯队');
+                console.log('woshidiy');
+                console.group('嵌套group');
+                    console.log('第一层里的第一层');
+                console.groupEnd();
+            console.groupEnd();
+        }
+
+        var btn6 = function () {
+            for (let index = 0; index < 5; index++) {
+                console.count('次数：');
+            }
+        }
+
+        var btn7 = function () {
+            console.time('timer1');
+            // 计算耗时，settimeOut无效
+            setTimeout(() => {
+                var name = 'adad';
+            }, 1000);
+            console.timeEnd('timer1');
+        }
+
+        // chrome无效
+        var btn8 = function () {
+            console.dir('折叠的信息');
+        }
+
+    </script>
+</body>
+</html>
