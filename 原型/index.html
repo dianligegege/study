@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        {
+            // 8.3.1 原型链
+            // 一句话，构造函数的原型里(prototype)里的方法会继承下去，继承给谁呢？继承给构造函数的实例，或者说[[prototype]]指向原型的函数。
+            function Super() {
+                this.name = 'sup';
+            }
+            Super.prototype.getSupName = function () {
+                return this.name;
+            }
+
+            // console.log(Super.getSupName()); // 报错 只有Super的实例才会继承Super原型的方法
+
+            function Sub() {
+                this.subName = 'sub';
+            }
+            Sub.prototype = new Super(); // 实例是别人的原型，因为原型才会把属性继承下去
+            // console.log(Sub.getSupName()); // 报错
+            console.log(Sub.prototype.getSupName()); // sup
+
+            Sub.prototype.getSubName = function () {
+                return this.subName;
+            }
+            const instance = new Sub(); // 继承了Sub原型的getSubName方法，同时也继承了Super实例的getSuPName方法
+            console.log(instance.getSupName()); // sup
+            console.log(instance.getSubName()); // sub
+            
+            // 任何函数的默认原型都是一个Object的实例，这意味着这个实例有一个内部指针指向Object.prototype
+            console.log(Super.toString()); // 函数
+            console.log(Sub.toString()); // 函数
+            console.log(instance); // 对象
+            console.log(instance.toString());
+        }
+        {
+            // 覆盖父类的方法，要在子类吧原型指向父类之后再覆盖
+            function Super() {
+                this.superName = 'super';
+            }
+            Super.prototype.getSupName = function () {
+                return this.superName;
+            }
+            function Sub () {
+                this.subName= 'sub';
+            }
+            Sub.prototype = new Super(); // 这一步之后才能覆盖Super的方法
+            Sub.prototype.getSupName = function () {
+                return '覆盖了super';
+            }
+            const instance = new Sub();
+            console.log(instance.getSupName());
+            console.log('------------------------------');
+        }
+        {
+            // 原型上的引用值会一直复用，注意是原型上的
+            {
+                // 首先看个一级的
+                function Super() {};
+                Super.prototype.list = [1, 2];
+                Super.prototype.name = 'name-super';
+    
+                const sub1 = new Super();
+                console.log(sub1.list); // [1, 2]
+                sub1.list.push(3);
+                sub1.name = 'name-sub1'
+    
+                const sub2 = new Super();
+                console.log(sub2.list); // [1, 2, 3] ,其他实例instance1修改了原型的list,所以影响到了这个实例的属性
+                console.log(sub2.name); // 'name-super'
+            }
+            {
+                // 再看个二级的
+                function Super() {};
+                Super.prototype.list = [1, 2];
+                Super.prototype.name = 'name-super';
+
+                // 比上边那个一级的多了一层，结果还是会被影响
+                function Sub () {};
+                Sub.prototype = new Super();
+    
+                const sub1 = new Sub();
+                console.log(sub1.list); // [1, 2]
+                sub1.list.push(3);
+                sub1.name = 'name-sub1'
+    
+                const sub2 = new Sub();
+                console.log(sub2.list); // [1, 2, 3] ,其他实例instance1修改了原型的list,所以影响到了这个实例的属性
+                console.log(sub2.name); // 'name-super'
+            }
+        }
+        console.log('------------------------------');
+        {
+            // 原型继承有个缺点，无法给原型传递参数，但是构造函数可以，以下是构造函数
+            function Super(name) {
+                this.name = name;
+                this.getColor = function () {
+                    return 'red';
+                }
+            }
+            const sub = new Super('sub');
+            console.log(sub.name); // sub
+            console.log(sub.getColor()); // red
+
+            // const instance = new sub(); 报错，没办法这样实现继承连，这是使用原型的又一理由
+        }
+    </script>
+</body>
+</html>

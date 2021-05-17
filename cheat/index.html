@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <input type="button" value="加入房间" onclick="join()"><br>
+    <input type="button" value="离开房间" onclick="leave()"><br>
+</body>
+<script>
+    //和服务器建立长连接
+     var socket = io.connect('/');
+ 
+     var name = 'tony';
+ 
+     //向服务器端发送自定义消息
+     function join(){
+         socket.emit('join', name);
+     }
+ 
+     function leave(){
+         socket.emit('leave', name);
+     }
+ 
+     //收到有新的人加入房间的信息
+     socket.on('system', function(data){
+         alert(data)
+     });
+     //收到我离开的信息
+     socket.on('leavehint', function(data){
+         alert(data)
+     });
+ 
+ 
+     //和服务器建立长连接
+     //socket.on('connect', function(){});
+</script>
+</html>
