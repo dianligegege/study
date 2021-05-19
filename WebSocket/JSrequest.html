@@ -12,11 +12,13 @@
     </style>
 </head>
 <body>
+    <input id="my-input" type="text">
     <a href="JAVASCRIPT:sendStr()">发送信息到ws服务器</a>
     <a href="JAVASCRIPT:sendBinary()">请求二进制信息到ws服务器</a>
     <a href="JAVASCRIPT:ws.close()">关闭ws链接</a>
     <input type="file" name="some" id="some">
     <a href="JAVASCRIPT:sendPic()">发送Blob对象</a>
+    <div id="mes-box"></div>
     <script>
 
         var ws = new WebSocket('ws://localhost:3000/test');
@@ -26,7 +28,10 @@
         // 发送字符串数据
         function sendStr() {
             console.log('ws.readyState' + ws.readyState);
-            ws.send('Hello,发送给服务端的信息');
+            const dom = document.getElementById('my-input');
+            console.log(dom);
+            const mes = dom.value;
+            ws.send(mes);
         }
         // 发送二进制数据
         function sendBinary() {
@@ -46,6 +51,8 @@
             if(typeof event.data === 'string') {
                 console.log("String" + event.data);
             }
+            const dom = document.getElementById('mes-box');
+            dom.innerHTML = event.data;
         }
 
         // .onopen,用于指定链接成功后的回调函数
@@ -67,3 +74,11 @@
     </script>
 </body>
 </html>
+
+<style>
+    #mes-box {
+        border: 1px solid #ccc;
+        width: 200px;
+        height: 200px;
+    }
+</style>
