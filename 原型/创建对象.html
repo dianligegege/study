@@ -23,6 +23,80 @@
             const obj1 = creatObj('hh', 112, 'worker');
             console.log(obj1);
         }
+        {
+            function Person() {
+                this.name = 'dianli1';
+                return {
+                    name: 'dianli2',
+                };
+            }
+
+            const person1 = new Person();
+            console.log(person1.name);
+        }
+        {
+            function Person() {
+                this.name = 'dianli';
+            }
+            Person(); // 这里直接调用，this 指向 全局作用域 window
+            console.log(window.name); // 'dianli'
+            const o = new Object();
+            Person.call(o); // Person 的 this 指向了对象 o
+            console.log(o.name); // 'dianli'
+        }
+        {
+            function Person() {
+                this.getName = obj.getName;
+            }
+            const obj = {
+                getName: function() {
+                    console.log('haha');
+                }
+            };
+            const person1 = new Person();
+            person1.getName(); // haha
+        }
+        {
+            function Person() {};
+            console.log(Person.prototype);
+        }
+        {
+            const obj = {
+                a: 1,
+                3: 3,
+                1: 1,
+                b: 12,
+            };
+            console.log(Object.keys(obj)); // 1 3 a b
+            console.log(Object.getOwnPropertyNames(obj));
+        }
+        {
+            function Person() {};
+
+            Person.prototype = {
+                goAway () {
+                    console.log('hi');
+                }
+            }
+
+            let friend = new Person();
+
+            Person.prototype = {
+                goAway () {
+                    console.log('bye');
+                }
+            }
+
+            friend.goAway(); // hi
+        }
+        {
+            function Person(name) {
+                Person.prototype.name = name;
+            }
+
+            const one = new Person('dianli');
+            console.log(one.name); // 'dianli'
+        }
     </script>
 </body>
 </html>
