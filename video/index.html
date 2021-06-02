@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <video
+            width="320"
+            height="240"
+            controls
+            crossorigin="anonymous"
+            src="~@/assets/images/index/2k1.mp4"
+        />
+        <video
+            crossorigin="anonymous"
+            preload="auto"
+            :src="src"
+        />
+        <iframe
+            src="//player.bilibili.com/player.html?aid=55537010&bvid=BV1D4411P7Bi&cid=97101176&page=1"
+            scrolling="no"
+            border="0"
+            frameborder="no"
+            framespacing="0"
+            allowfullscreen="true"
+        />
+    <video src=""></video>
+
+    <script>
+        var video = document.querySelector('video');
+
+var assetURL = 'frag_bunny.mp4';
+// Need to be specific for Blink regarding codecs
+// ./mp4info frag_bunny.mp4 | grep Codec
+var mimeCodec = 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"';
+
+if ('MediaSource' in window && MediaSource.isTypeSupported(mimeCodec)) {
+  var mediaSource = new MediaSource();
+  //console.log(mediaSource.readyState); // closed
+  video.src = URL.createObjectURL(mediaSource);
+  mediaSource.addEventListener('sourceopen', sourceOpen);
+} else {
+  console.error('Unsupported MIME type or codec: ', mimeCodec);
+}
+
+function sourceOpen (_) {
+  //console.log(this.readyState); // open
+  var mediaSource = this;
+  var sourceBuffer = mediaSource.addSourceBuffer(mimeCodec);
+  fetchAB(assetURL, function (buf) {
+    sourceBuffer.addEventListener('updateend', function (_) {
+      mediaSource.endOfStream();
+      video.play();
+      //console.log(mediaSource.readyState); // ended
+    });
+    sourceBuffer.appendBuffer(buf);
+  });
+};
+
+function fetchAB (url, cb) {
+  console.log(url);
+  var xhr = new XMLHttpRequest;
+  xhr.open('get', url);
+  xhr.responseType = 'arraybuffer';
+  xhr.onload = function () {
+    cb(xhr.response);
+  };
+  xhr.send();
+};
+    </script>
+</body>
+</html>
