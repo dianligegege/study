@@ -33,7 +33,7 @@ function compile (code) {
   };
   traverse.default(ast, visitor);
 
-  // 3. generator
+  // 3. generator 生成新代码
   return generator.default(ast, {}, code);
 }
 
