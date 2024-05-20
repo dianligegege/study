@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="wrap">
+            <div>
+                <p class="grow1"></p>
+                <p class="grow2"></p>
+                <p class="grow3"></p>
+                <p class="grow4"></p>
+            </div>
+            <div>
+                <p class="stoke1"></p>
+                <p class="stoke2"></p>
+                <p class="stoke3"></p>
+                <p class="stoke4"></p>
+            </div>
+        </div>
+    </body>
+</html>
+
+<style>
+    body {
+        background-color: rgb(27, 35, 41);
+    }
+    .wrap {
+        width: 700px;
+        height: 700px;
+        background-color: #00000061;
+        margin: 20px auto;
+        display: flex;
+
+        p {
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+            border: 1px solid #fff;
+        }
+    }
+
+    .grow1 {
+        background: radial-gradient(
+            25% 50% at 50% 0%,
+            rgb(211, 255, 202) 0%,
+            rgba(255, 255, 255, 0) 100%
+        );
+    }
+
+    .grow2 {
+        background: radial-gradient(
+            25% 35.4% at 100% 50%,
+            rgb(211, 255, 202) 0%,
+            rgba(255, 255, 255, 0) 100%
+        );
+    }
+
+    .grow3 {
+        background: radial-gradient(
+            25% 50% at 50% 100%,
+            rgb(211, 255, 202) 0%,
+            rgba(255, 255, 255, 0) 100%
+        );
+    }
+
+    .grow4 {
+        background: radial-gradient(
+            25% 34.4% at 0% 50%,
+            rgb(211, 255, 202) 0%,
+            rgba(255, 255, 255, 0) 100%
+        );
+    }
+
+    .stoke1 {
+        background: radial-gradient(
+            20.7% 50% at 50% 0%,
+            rgb(211, 255, 202) 0%,
+            rgba(255, 255, 255, 0) 100%
+        );
+    }
+
+    .stoke2 {
+        background: radial-gradient(
+            16.2% 41.2% at 100% 50%,
+            rgb(211, 255, 202) 0%,
+            rgba(255, 255, 255, 0) 100%
+        );
+    }
+
+    .stoke3 {
+        background: radial-gradient(
+            20.7% 50% at 50% 100%,
+            rgb(211, 255, 202) 0%,
+            rgba(255, 255, 255, 0) 100%
+        );
+    }
+
+    .stoke4 {
+        background: radial-gradient(
+            16.6% 43.1% at 0% 50%,
+            rgb(211, 255, 202) 0%,
+            rgba(255, 255, 255, 0) 100%
+        );
+    }
+</style>

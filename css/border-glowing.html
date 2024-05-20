@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="element-with-glow">
+            <div class="glow"></div>
+            <div class="content z-1">
+                <div class="content">我是内容</div>
+            </div>
+        </div>
+    </body>
+</html>
+<style>
+    body {
+        background-color: rgb(27, 35, 41);
+    }
+    .element-with-glow {
+        position: relative;
+        overflow: hidden;
+        padding: 1px;
+        border-radius: 24px;
+        width: max-content;
+        margin: 40px auto;
+    }
+
+    .element-with-glow::after {
+        position: absolute;
+        content: '';
+        width: calc(100% - 1px);
+        height: calc(100% - 1px);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        left: 0;
+        top: 0px;
+    }
+
+    .content {
+        position: relative;
+        background-color: #000000;
+        border-radius: 24px;
+        width: 300px;
+        height: 400px;
+        margin: 0 auto;
+        color: #fff;
+        box-sizing: border-box;
+    }
+
+    .glow {
+        z-index: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: translate(0, -50%);
+        animation: glow 3s infinite linear;
+    }
+
+    .glow::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 50%;
+        height: 50%;
+        background: radial-gradient(
+            circle at center,
+            rgb(225, 251, 220) 0%,
+            rgb(211, 255, 202) 20%,
+            rgba(255, 255, 255, 0) 100%
+        );
+        filter: blur(40px);
+        border-radius: 50%;
+    }
+
+    @keyframes glow {
+        0% {
+            transform: translate(0, -50%);
+        }
+        12.5% {
+            transform: translate(50%, -50%);
+        }
+        25% {
+            transform: translate(50%, 0);
+        }
+        37.5% {
+            transform: translate(50%, 50%);
+        }
+        50% {
+            transform: translate(0, 50%);
+        }
+        62.5% {
+            transform: translate(-50%, 50%);
+        }
+        75% {
+            transform: translate(-50%, 0);
+        }
+        87.5% {
+            transform: translate(-50%, -50%);
+        }
+        100% {
+            transform: translate(0, -50%);
+        }
+    }
+</style>
